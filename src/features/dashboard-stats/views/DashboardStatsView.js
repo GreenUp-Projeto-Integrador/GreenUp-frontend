@@ -40,32 +40,30 @@ export default function DashboardStatsView({ data, onBack }) {
                 _jsx(ResponsiveContainer, {
                   width: "100%",
                   height: 250,
-                  children: _jsx(LineChart, {
+                  children: _jsxs(LineChart, {
                     data: data.disposals,
-                    children: _jsxs("g", {
-                      children: [
-                        _jsx(CartesianGrid, {
-                          strokeDasharray: "3 3",
-                          stroke: "#e5e7eb",
-                        }),
-                        _jsx(XAxis, { dataKey: "month", stroke: "#6b7280" }),
-                        _jsx(YAxis, { stroke: "#6b7280" }),
-                        _jsx(Tooltip, {
-                          contentStyle: {
-                            backgroundColor: "#f3f4f6",
-                            border: "1px solid #e5e7eb",
-                            borderRadius: "8px",
-                          },
-                        }),
-                        _jsx(Line, {
-                          type: "monotone",
-                          dataKey: "count",
-                          stroke: "#f8c78d",
-                          strokeWidth: 3,
-                          dot: { fill: "#f8c78d", r: 5 },
-                        }),
-                      ],
-                    }),
+                    children: [
+                      _jsx(CartesianGrid, {
+                        strokeDasharray: "3 3",
+                        stroke: "#e5e7eb",
+                      }),
+                      _jsx(XAxis, { dataKey: "month", stroke: "#6b7280" }),
+                      _jsx(YAxis, { stroke: "#6b7280" }),
+                      _jsx(Tooltip, {
+                        contentStyle: {
+                          backgroundColor: "#f3f4f6",
+                          border: "1px solid #e5e7eb",
+                          borderRadius: "8px",
+                        },
+                      }),
+                      _jsx(Line, {
+                        type: "monotone",
+                        dataKey: "count",
+                        stroke: "#f8c78d",
+                        strokeWidth: 3,
+                        dot: { fill: "#f8c78d", r: 5 },
+                      }),
+                    ],
                   }),
                 }),
               ],
@@ -80,30 +78,28 @@ export default function DashboardStatsView({ data, onBack }) {
                 _jsx(ResponsiveContainer, {
                   width: "100%",
                   height: 250,
-                  children: _jsx(PieChart, {
-                    children: _jsxs("g", {
-                      children: [
-                        _jsx(Pie, {
-                          data: data.categories,
-                          cx: "50%",
-                          cy: "50%",
-                          innerRadius: 60,
-                          outerRadius: 90,
-                          paddingAngle: 5,
-                          dataKey: "value",
-                          children: data.categories.map((entry, index) =>
-                            _jsx(Cell, { fill: entry.color }, index)
-                          ),
-                        }),
-                        _jsx(Tooltip, {
-                          contentStyle: {
-                            backgroundColor: "#f3f4f6",
-                            border: "1px solid #e5e7eb",
-                            borderRadius: "8px",
-                          },
-                        }),
-                      ],
-                    }),
+                  children: _jsxs(PieChart, {
+                    children: [
+                      _jsx(Pie, {
+                        data: data.categories,
+                        cx: "50%",
+                        cy: "50%",
+                        innerRadius: 60,
+                        outerRadius: 90,
+                        paddingAngle: 5,
+                        dataKey: "value",
+                        children: data.categories.map((entry, index) =>
+                          _jsx(Cell, { fill: entry.color }, index)
+                        ),
+                      }),
+                      _jsx(Tooltip, {
+                        contentStyle: {
+                          backgroundColor: "#f3f4f6",
+                          border: "1px solid #e5e7eb",
+                          borderRadius: "8px",
+                        },
+                      }),
+                    ],
                   }),
                 }),
                 _jsx("div", {

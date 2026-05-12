@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner"; // NOVO: Toaster
 import DisposalView from "../views/DisposalView";
 
 const disposalCategories = [
@@ -13,12 +13,21 @@ const disposalCategories = [
   "Outros",
 ];
 
+// MUDANÇA: opções do select em vez de 3 botões separados
+const trashLevelOptions = [
+  { value: "nivel1", label: "Nível 1" },
+  { value: "nivel2", label: "Nível 2" },
+  { value: "nivel3", label: "Nível 3" },
+  { value: "nivel4", label: "Nível 4" },
+];
+
 export default function DisposalPage() {
   const navigate = useNavigate();
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [items, setItems] = useState("");
   const [photos, setPhotos] = useState([]);
   const [trashLevel, setTrashLevel] = useState(null);
+  const [selectedLevel, setSelectedLevel] = useState(""); // MUDANÇA: estado para o select
 
   const handleCategoryToggle = (category) => {
     setSelectedCategories((prev) =>
@@ -47,8 +56,17 @@ export default function DisposalPage() {
       return;
     }
 
-    setTrashLevel("requesting");
-    toast.success("Descarte registrado com sucesso!");
+    setTrashLevel("requesting"); // MUDANÇA: abre o popup
+  };
+
+  // MUDANÇA: confirmação separada do handleSubmit
+  const handleConfirmLevel = () => {
+    if (!selectedLevel) {
+      toast.error("Selecione o nível da lixeira");
+      return;
+    }
+    setTrashLevel(null);
+    toast.success("Registro feito com sucesso");
     setTimeout(() => {
       navigate("/main");
     }, 1000);
@@ -61,52 +79,53 @@ export default function DisposalPage() {
   return _jsxs("div", {
     className: "relative size-full overflow-hidden bg-white",
     children: [
+
+      // POPUP — MUDANÇA: layout completamente reestilizado conforme protótipo
       trashLevel === "requesting" &&
         _jsx("div", {
-          className:
-            "fixed inset-0 bg-black/50 z-50 flex items-center justify-center",
-          children: _jsx("div", {
-            className: "bg-white rounded-lg p-6 w-80",
-            children: _jsxs("div", {
-              className: "space-y-4 text-center",
-              children: [
-                _jsx("h2", {
-                  className: "text-xl font-bold",
-                  children: "Qual é o nível da sua lixeira?",
-                }),
-                _jsxs("div", {
-                  className: "flex gap-2 justify-center",
-                  children: [
-                    _jsx("button", {
-                      onClick: () => {
-                        setTrashLevel(null);
-                        navigate("/main");
-                      },
-                      className: "flex-1 py-2 bg-blue-500 text-white rounded",
-                      children: "Vazia",
-                    }),
-                    _jsx("button", {
-                      onClick: () => {
-                        setTrashLevel(null);
-                        navigate("/main");
-                      },
-                      className: "flex-1 py-2 bg-yellow-500 text-white rounded",
-                      children: "Meia",
-                    }),
-                    _jsx("button", {
-                      onClick: () => {
-                        setTrashLevel(null);
-                        navigate("/main");
-                      },
-                      className: "flex-1 py-2 bg-red-500 text-white rounded",
-                      children: "Cheia",
-                    }),
-                  ],
-                }),
-              ],
-            }),
+          className: "fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-6",
+          children: _jsxs("div", {
+            className: "bg-white rounded-2xl p-6 w-full max-w-sm shadow-lg space-y-5",
+            children: [
+
+              // Título — MUDANÇA: era "text-center font-bold" → alinhado à esquerda, estilo protótipo
+              _jsxs("div", {
+                children: [
+                  _jsx("h2", {
+                    className: "text-lg font-semibold text-black",
+                    children: "Só mais uma coisinha,",
+                  }),
+                  _jsx("p", {
+                    className: "text-sm text-gray-700 mt-1",
+                    children: "Qual é nível de ocupação da lixeira?",
+                  }),
+                ],
+              }),
+
+              // Select — MUDANÇA: era 3 botões coloridos → dropdown "Selecione o nível"
+              _jsxs("select", {
+                value: selectedLevel,
+                onChange: (e) => setSelectedLevel(e.target.value),
+                className: "w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-500 focus:outline-none appearance-none bg-white",
+                children: [
+                  _jsx("option", { value: "", disabled: true, children: "Selecione o nível" }),
+                  ...trashLevelOptions.map((opt) =>
+                    _jsx("option", { value: opt.value, children: opt.label }, opt.value)
+                  ),
+                ],
+              }),
+
+              // Botão confirmar — MUDANÇA: era múltiplos botões coloridos → 1 botão verde
+              _jsx("button", {
+                onClick: handleConfirmLevel,
+                className: "w-full text-white py-3 rounded-full font-semibold text-sm transition hover:opacity-90",
+                style: { backgroundColor: "#6F9A7C" },
+                children: "Confirmar",
+              }),
+            ],
           }),
         }),
+
       _jsx(DisposalView, {
         categories: disposalCategories,
         selectedCategories: selectedCategories,

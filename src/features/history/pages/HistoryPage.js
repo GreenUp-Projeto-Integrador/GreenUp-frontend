@@ -7,17 +7,22 @@ import { mockDisposals } from "../../../shared/mockData";
 export default function HistoryPage() {
   const navigate = useNavigate();
   const [disposals] = useState(mockDisposals);
+  const [selectedDisposal, setSelectedDisposal] = useState(null); // NOVO: controla o modal
 
   const handleBack = () => {
     navigate("/main");
   };
 
-  return (
-    _jsxs("div", {
-      className: "relative size-full overflow-hidden bg-white",
-      children: [
-        _jsx(HistoryView, { disposals: disposals, onBack: handleBack }),
-      ],
-    })
-  );
+  return _jsxs("div", {
+    className: "relative size-full overflow-hidden bg-white",
+    children: [
+      _jsx(HistoryView, {
+        disposals: disposals,
+        onBack: handleBack,
+        onViewMore: setSelectedDisposal,       // NOVO: abre o modal
+        selectedDisposal: selectedDisposal,    // NOVO: passa o dado selecionado
+        onCloseModal: () => setSelectedDisposal(null), // NOVO: fecha o modal
+      }),
+    ],
+  });
 }

@@ -4,8 +4,11 @@ import { useNavigate } from "react-router";
 import TelaPrincipal from "../views/TelaPrincipal";
 import Sidebar from "../views/Sidebar";
 import { motion, AnimatePresence } from "motion/react";
+import { useAuth } from "../../auth/AuthContext";
+
 export default function MainPage() {
     const navigate = useNavigate();
+    const { logout } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const handleSidebarToggle = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -14,10 +17,11 @@ export default function MainPage() {
         const target = e.target;
         // Handle logout
         if (target.closest('[data-name*="Sair"]')) {
+            logout();
             navigate("/login");
             setIsSidebarOpen(false);
         }
-        // Handle "Fazer login" - if user wants to switch accounts
+        // Handle "Fazer login" 
         if (target.closest('[data-name*="Fazer login"]')) {
             navigate("/login");
             setIsSidebarOpen(false);

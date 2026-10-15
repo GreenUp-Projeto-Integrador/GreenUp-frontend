@@ -18,11 +18,10 @@ export default function RankingView({ ranking, onBack }) {
       // Header
       _jsxs("div", {
         className: "absolute top-0 left-0 right-0 h-36 px-6 pt-4",
-        // MUDANÇA: era "h-32" → "h-36" para dar espaço ao troféu + título
         children: [
           _jsx("button", {
             onClick: onBack,
-            style: { color: "#B8502B", fontSize: "60px" }, // MUDANÇA: era "text-orange-600" → cor exata
+            style: { color: "#B8502B", fontSize: "60px" },
             className: "text-2xl mb-2",
             children: "‹",
           }),
@@ -35,7 +34,6 @@ export default function RankingView({ ranking, onBack }) {
           }),
           _jsx("h1", {
             className: "text-xl font-semibold text-center text-black mt-1",
-            // MUDANÇA: era "text-2xl font-bold" → "text-xl font-semibold"
             children: "Ranking",
           }),
         ],
@@ -44,20 +42,17 @@ export default function RankingView({ ranking, onBack }) {
       // Lista
       _jsx("div", {
         className: "absolute top-36 left-0 right-0 bottom-0 overflow-y-auto px-6 py-3 space-y-2",
-        // MUDANÇA: era "top-32 py-6 space-y-3" → "top-36 py-3 space-y-2"
         children: ranking.map((user, index) =>
           _jsx("div", {
             className: "bg-white rounded-xl px-4 py-3 flex items-center gap-3",
             style: { borderBottom: "1px solid #f0f0f0" },
-            // MUDANÇA: era "bg-gray-100 rounded-lg p-4" → fundo branco com separador
             children: _jsxs("div", {
               className: "flex-1 flex items-center gap-3",
               children: [
 
-                // Posição / medalha
                 _jsx("div", {
                   className: "text-lg font-bold w-6 text-center",
-                  style: { color: "#B8502B" }, // MUDANÇA: número da posição na cor laranja
+                  style: { color: "#B8502B" }, 
                   children:
                     user.position === 1 ? "🥇" :
                     user.position === 2 ? "🥈" :
@@ -68,21 +63,17 @@ export default function RankingView({ ranking, onBack }) {
                 // Avatar
                 _jsx("div", {
                   className: `${avatarColors[index % avatarColors.length]} rounded-full w-11 h-11 flex items-center justify-center text-white font-bold text-sm overflow-hidden`,
-                  // MUDANÇA: era "w-12 h-12" → "w-11 h-11", adicionado "overflow-hidden"
                   children: user.avatar,
                 }),
 
-                // Nome — ocupa o espaço restante
                 _jsx("p", {
                   className: "flex-1 font-semibold text-black text-sm",
-                  // MUDANÇA: era dentro de div com pontos abaixo → agora nome e pontos na mesma linha
                   children: user.name,
                 }),
 
-                // Pontos à direita em azul/teal
                 _jsx("p", {
                   className: "text-sm font-normal",
-                  style: { color: "#5B8FA8" }, // MUDANÇA: era "text-gray-600" abaixo do nome → cor azul à direita
+                  style: { color: "#5B8FA8" },
                   children: `${user.points} pts`,
                 }),
 

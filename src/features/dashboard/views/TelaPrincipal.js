@@ -1,12 +1,12 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react"; // NOVO: importar useState
-import { useNavigate } from "react-router"; // NOVO: importar UseNavigate
+import { useState } from "react"; 
+import { useNavigate } from "react-router"; 
 import svgPaths from "./svg-bfct7an0b4";
 import imgMaleAvatar from "../../../assets/a5378b296c9d3e83beae6b829ac0b6411c615059.png";
 import imgImage1 from "../../../assets/a167d66b671b9f36158857e99cdf94bcbb790570.png";
 import imgImage from "../../../assets/e3c5b9f388c74e156c88393f95e4af0af565c50e.png";
 import imgLocation3 from "../../../assets/98ff6696ace26f51e36b645d5ba9774d86b7aa02.png";
-import SidebarMenu from "../../../shared/components/SidebarMenu"; // NOVO: importar SidebarMenu
+import SidebarMenu from "../../../shared/components/SidebarMenu"; 
 
 
 function Right() {
@@ -18,10 +18,10 @@ function Date() {
 function SystemStatusBar() {
     return (_jsxs("div", { className: "-translate-x-1/2 absolute h-[38px] left-[calc(50%+0.5px)] overflow-clip top-[11px] w-[365px]", "data-name": ".system/status-bar", children: [_jsx(Right, {}), _jsx(Date, {})] }));
 }
-// MUDANÇA: Group1 agora recebe onOpen como prop para abrir o sidebar
+
 function Group1({ onOpen }) {
     return (_jsxs("button", {
-        onClick: onOpen, // MUDANÇA: era sem onClick, agora abre o sidebar
+        onClick: onOpen, 
         className: "absolute cursor-pointer left-[30px] top-[86px]",
         style: { zIndex: 10 },
         children: [
@@ -36,7 +36,6 @@ function Component() {
 function CamadaX3() {
     return (_jsxs("div", { className: "absolute contents inset-[7.83%_58.37%_87.42%_30.93%]", "data-name": "Camada_x0020_1", children: [_jsx(Component1, {}), _jsx(Component, {})] }));
 }
-// MUDANÇA: Group3 agora recebe onOpenSidebar e onNavigateAccount e passa para Group1
 function Group3({ onOpenSidebar, onNavigateAccount }) { 
     return (_jsxs("div", { className: "absolute contents left-[30px] top-[71px]", children: [
 
@@ -45,9 +44,8 @@ function Group3({ onOpenSidebar, onNavigateAccount }) {
             children: _jsx("p", { className: "leading-[normal] font-bold", children: "GreenUp" })
         }),
 
-        // MANTIDO: Avatar passa a ser um bot
         _jsx("button", {
-            onClick: onNavigateAccount, // MUDANÇA: chama onNavigateAccount
+            onClick: onNavigateAccount,
             className: "absolute left-[355px] size-[45px] top-[71px] cursor-pointer",
             style: { zIndex: 10, background: "none", border: "none", padding: 0 },
             children: _jsx("img", {
@@ -96,10 +94,9 @@ function Group6() {
 function Frame1() {
     return (_jsxs("div", { className: "absolute content-stretch flex flex-col gap-[30px] h-[1085px] items-start left-[30px] overflow-x-clip overflow-y-auto top-[173px] w-[370px]", children: [_jsx(Group2, {}), _jsx(Group4, {}), _jsx(Group5, {}), _jsx(Group7, {}), _jsx(Group6, {}), _jsx("div", { className: "bg-[rgba(217,217,217,0)] h-[54px] shrink-0 w-[7px]" })] }));
 }
-// MUDANÇA: export default agora controla o estado do sidebar
 export default function TelaPrincipal({ onNavigate }) {
-    const [sidebarOpen, setSidebarOpen] = useState(false); // NOVO: estado do sidebar
-    const navigate = useNavigate(); // NOVO
+    const [sidebarOpen, setSidebarOpen] = useState(false); 
+    const navigate = useNavigate(); 
 
     return _jsxs("div", {
         className: "bg-white relative size-full",
@@ -112,15 +109,14 @@ export default function TelaPrincipal({ onNavigate }) {
             }
         },
         children: [
-            // NOVO: SidebarMenu integrado diretamente na TelaPrincipal
             _jsx(SidebarMenu, {
                 isOpen: sidebarOpen,
                 onClose: () => setSidebarOpen(false),
             }),
 
             _jsx(Group3, { onOpenSidebar: () => setSidebarOpen(true),
-                onNavigateAccount: () => navigate("/account"), // NOVO
-            }), // MUDANÇA: passa handler
+                onNavigateAccount: () => navigate("/account"), 
+            }), 
 
             _jsx(Frame1, {}),
         ]

@@ -1,9 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react"; // importar useState para controlar o sidebar
-import { useNavigate } from "react-router"; // importar useNavigate
+import { useState } from "react"; 
+import { useNavigate } from "react-router"; 
 import svgPaths from "../../features/dashboard/views/svg-bfct7an0b4";
 import imgMaleAvatar from "../../assets/a5378b296c9d3e83beae6b829ac0b6411c615059.png";
-import SidebarMenu from "./SidebarMenu"; // importar SidebarMenu
+import SidebarMenu from "./SidebarMenu"; 
 
 // Logo parte 1 
 function Component1() {
@@ -37,25 +37,21 @@ function Component() {
 }
 
 export default function AppHeader() {
-  const [sidebarOpen, setSidebarOpen] = useState(false); // estado para controlar abertura do sidebar
-  const navigate = useNavigate(); // hook de navegação
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
+  const navigate = useNavigate(); 
 
   return _jsxs("div", { className: "absolute contents left-[30px] top-[71px]", children: [
 
-    // SidebarMenu renderizado aqui, controlado pelo estado sidebarOpen
     _jsx(SidebarMenu, {
       isOpen: sidebarOpen,
       onClose: () => setSidebarOpen(false),
     }),
 
-    // Texto "GreenUp"
     _jsx("div", {
       className: "-translate-x-1/2 -translate-y-1/2 absolute flex flex-col justify-center leading-[0] left-[calc(50%+25px)] not-italic text-[#6f9a7c] text-[25px] text-center top-[93px] w-[112px]",
       children: _jsx("p", { className: "leading-[normal] font-bold", children: "GreenUp" }),
     }),
 
-    // 
-    // Avatar é um botão clicável que navega para /account
     _jsx("button", {
       onClick: () => navigate("/account"),
       className: "absolute left-[355px] size-[45px] top-[71px] cursor-pointer",
@@ -67,19 +63,18 @@ export default function AppHeader() {
       }),
     }),
 
-    //  onClick que abre o SidebarMenu via setSidebarOpen(true)
     _jsxs("button", {
       onClick: () => setSidebarOpen(true),
       className: "absolute cursor-pointer left-[30px] top-[86px]",
       style: { zIndex: 10 },
       children: [
-        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-0 w-[27.2px]" }),     // linha 1
-        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-[7.08px] w-[27.2px]" }), // linha 2
-        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-[14.17px] w-[27.2px]" }), // linha 3
+        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-0 w-[27.2px]" }),     
+        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-[7.08px] w-[27.2px]" }), 
+        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-[14.17px] w-[27.2px]" }), 
       ],
     }),
 
-    // Logo (ícone colorido)
+    // Logo 
     _jsxs("div", { className: "absolute contents inset-[7.83%_58.37%_87.42%_30.93%]", children: [
       _jsx(Component1, {}),
       _jsx(Component, {}),

@@ -1,7 +1,7 @@
 node_modules
-/apps
+dist
+.env
+.env.local
 bun.lock
-/dist
-/dist
-package-lock.json
-.claude/
+.wrangler
+.dev.vars*

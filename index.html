@@ -8,6 +8,21 @@
       <link rel="icon" type="image/svg+xml" href="/public/vite.svg" />
     </head>
 
+    <script>
+  function mostrarErro(msg) {
+    document.body.insertAdjacentHTML(
+      "afterbegin",
+      '<pre style="color:#b00020;background:#fff;white-space:pre-wrap;padding:12px;font-size:13px;position:relative;z-index:99999">ERRO: ' + msg + "</pre>"
+    );
+  }
+  window.addEventListener("error", function (e) {
+    mostrarErro(e.message + " — " + e.filename + ":" + e.lineno);
+  });
+  window.addEventListener("unhandledrejection", function (e) {
+    mostrarErro(String(e.reason));
+  });
+</script>
+
     <body>
       <div id="root"></div>
       <script type="module" src="/src/main.js"></script>

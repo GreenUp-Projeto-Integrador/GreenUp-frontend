@@ -1,13 +1,21 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import HistoryView from "../views/HistoryView";
-import { mockDisposals } from "../../../shared/mockData";
+import { toast } from "sonner";
+import { disposalApi } from "../../../shared/api/endpoints";
+import { errorMessage } from "../../../shared/api/http";
 
 export default function HistoryPage() {
   const navigate = useNavigate();
-  const [disposals] = useState(mockDisposals);
-  const [selectedDisposal, setSelectedDisposal] = useState(null); // NOVO: controla o modal
+  const [selectedDisposal, setSelectedDisposal] = useState(null); 
+  const [disposals, setDisposals] = useState([]); 
+
+useEffect(() => {
+  disposalApi.list()
+    .then((list) => setDisposals(list.map((d) => ({ ...d, trashLevel: `Nível ${d.trashLevel}` }))))
+    .catch((e) => toast.error(errorMessage(e)));
+}, []);
 
   const handleBack = () => {
     navigate("/main");
@@ -19,9 +27,9 @@ export default function HistoryPage() {
       _jsx(HistoryView, {
         disposals: disposals,
         onBack: handleBack,
-        onViewMore: setSelectedDisposal,       // NOVO: abre o modal
-        selectedDisposal: selectedDisposal,    // NOVO: passa o dado selecionado
-        onCloseModal: () => setSelectedDisposal(null), // NOVO: fecha o modal
+        onViewMore: setSelectedDisposal,       
+        selectedDisposal: selectedDisposal,    
+        onCloseModal: () => setSelectedDisposal(null), 
       }),
     ],
   });

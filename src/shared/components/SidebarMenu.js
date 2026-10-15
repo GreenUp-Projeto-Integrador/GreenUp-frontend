@@ -1,9 +1,10 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../features/auth/AuthContext";
 import svgPaths from "../../features/dashboard/views/svg-ani2nrow18";
 
-// ── Ícones reutilizáveis ──
+// Ícone de Home
 function IconHome() {
   return _jsxs("div", { className: "relative size-[28px]", children: [
     _jsx("div", { className: "absolute inset-[37.5%_16.67%_12.5%_16.67%]", children:
@@ -24,6 +25,7 @@ function IconHome() {
   ]});
 }
 
+// Ícone de Login
 function IconLogin() {
   return _jsx("div", { className: "relative size-[28px]", children:
     _jsx("svg", { className: "block size-full", fill: "none", viewBox: "0 0 21.5 24", children:
@@ -32,6 +34,7 @@ function IconLogin() {
   });
 }
 
+// Ícone de Whatsapp
 function IconWhatsapp() {
   return _jsx("div", { className: "relative size-[26px]", children:
     _jsx("svg", { className: "block size-full", fill: "none", viewBox: "0 0 26 26", children:
@@ -40,6 +43,7 @@ function IconWhatsapp() {
   });
 }
 
+// Ícone de Help
 function IconHelp() {
   return _jsx("div", { className: "relative size-[26px]", children:
     _jsx("svg", { className: "block size-full", fill: "none", viewBox: "0 0 24.8333 24.8333", children:
@@ -48,6 +52,7 @@ function IconHelp() {
   });
 }
 
+// Ícone de Logout
 function IconLogout() {
   return _jsx("div", { className: "relative size-[26px]", children:
     _jsx("svg", { className: "block size-full", fill: "none", viewBox: "0 0 22.5 22.5", children: _jsxs("g", { children: [
@@ -57,7 +62,7 @@ function IconLogout() {
   });
 }
 
-// ── Botão X verde ──
+// Botão X verde
 function CloseButton({ onClose }) {
   return _jsx("button", {
     onClick: onClose,
@@ -67,12 +72,12 @@ function CloseButton({ onClose }) {
   });
 }
 
-// ── Linha separadora ──
+// Linha separadora
 function Divider() {
   return _jsx("div", { style: { borderBottom: "1px solid #f0f0f0", margin: "4px 0" } });
 }
 
-// ── Modal "Fale Conosco" ──
+// Modal "Fale Conosco"
 function FaleConoscoModal({ onClose }) {
   const contacts = [
     { icon: "📞", label: "Telefone", value: "+55 11 91234-5678" },
@@ -128,7 +133,7 @@ function FaleConoscoModal({ onClose }) {
   });
 }
 
-// ── Modal "Ajuda" ──
+// Modal "Ajuda"
 function AjudaModal({ onClose }) {
   const faqs = [
     { q: "O que é o GreenUp?", a: "É uma plataforma para encontrar pontos de coleta de lixo eletrônico." },
@@ -209,9 +214,10 @@ function AjudaModal({ onClose }) {
   });
 }
 
-// ── Componente principal ──
+// Componente principal 
 export default function SidebarMenu({ isOpen, onClose }) {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [showFaleConosco, setShowFaleConosco] = useState(false);
   const [showAjuda, setShowAjuda] = useState(false);
 
@@ -239,7 +245,7 @@ export default function SidebarMenu({ isOpen, onClose }) {
     {
       icon: _jsx(IconLogout, {}),
       label: "Sair",
-      action: () => handleNavigate("/login"),
+      action: () => { logout(); handleNavigate("/login"); },
       style: { color: "#B8502B" },
     },
   ];

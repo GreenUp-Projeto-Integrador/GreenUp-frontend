@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import AppHeader from "../../../shared/components/AppHeader"; // NOVO
+import AppHeader from "../../../shared/components/AppHeader"; 
 
 export default function HistoryView({ disposals, onBack, onViewMore, selectedDisposal, onCloseModal }) {
 
@@ -24,7 +24,7 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
             children: "‹",
           }),
           _jsx("h1", {
-            className: "text-xl font-semibold text-black mt-2", // MUDANÇA: era "text-2xl font-bold" → "text-xl font-semibold"
+            className: "text-xl font-semibold text-black mt-2", 
             children: "Histórico de registros",
           }),
         ],
@@ -32,30 +32,30 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
 
       // Lista
       _jsx("div", {
-        className: "flex-1 overflow-y-auto px-6 py-4 space-y-3", // MUDANÇA: era "absolute top-24..." → "flex-1 overflow-y-auto"
+        className: "flex-1 overflow-y-auto px-6 py-4 space-y-3", 
         children: disposals.map((disposal) =>
           _jsx("div", {
-            style: { backgroundColor: "#EBE8E380" }, // MUDANÇA: era "bg-gray-100" → cor exata #EBE8E380
-            className: "rounded-xl px-4 py-4 flex justify-between items-center", // MUDANÇA: era "rounded-lg p-4" → "rounded-xl px-4 py-4"
+            style: { backgroundColor: "#EBE8E380" },
+            className: "rounded-xl px-4 py-4 flex justify-between items-center", 
             children: _jsxs("div", {
-              className: "flex-1 flex justify-between items-center", // MUDANÇA: era "flex-1" → adicionado justify-between
+              className: "flex-1 flex justify-between items-center", 
               children: [
 
-                _jsxs("div", { // MUDANÇA: agora coluna com data + tipo
+                _jsxs("div", { 
                   className: "flex flex-col gap-0.5",
                   children: [
                     _jsx("p", {
-                      className: "font-semibold text-black text-sm", // MUDANÇA: adicionado text-sm
+                      className: "font-semibold text-black text-sm", 
                       children: disposal.date,
                     }),
                     _jsx("p", {
-                      className: "text-xs font-normal text-gray-500", // MUDANÇA: era text-sm text-gray-600
+                      className: "text-xs font-normal text-gray-500", 
                       children: disposal.type,
                     }),
                   ],
                 }),
 
-                // NOVO: botão "Ver mais" que abre o modal
+                // Botão "Ver mais" que abre o modal
                 _jsx("button", {
                   onClick: () => onViewMore(disposal),
                   className: "text-white text-xs font-semibold px-4 py-1.5 rounded-full transition",
@@ -69,7 +69,7 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
         ),
       }),
 
-      // NOVO: Modal
+      // Modal
       selectedDisposal && _jsx("div", {
         className: "fixed inset-0 z-50 flex items-center justify-center px-6",
         style: {
@@ -85,7 +85,7 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
           },
           children: [
 
-            // NOVO: Cabeçalho do modal
+            // Cabeçalho do modal
             _jsxs("div", {
               className: "flex items-center justify-between px-5 py-4",
               style: { borderBottom: "1px solid #f0f0f0" },
@@ -95,7 +95,7 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
                   children: "Detalhes da Coleta",
                 }),
 
-                // NOVO: Botão X circular verde
+                // Botão X circular verde
                 _jsx("button", {
                   onClick: onCloseModal,
                   className: "text-white text-sm font-bold flex items-center justify-center transition",
@@ -114,7 +114,7 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
               ],
             }),
 
-            // NOVO: Campos com ícone + label + valor
+            // Campos com ícone + label + valor
             _jsxs("div", {
               className: "px-5 py-4 space-y-3",
               children: [
@@ -149,7 +149,7 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
                   }, label)
                 ),
 
-                // NOVO: Imagem ou mensagem de ausência
+                // Imagem ou mensagem de ausência
                 selectedDisposal.image
                   ? _jsxs("div", {
                       className: "flex flex-col gap-2 pt-1",
@@ -203,7 +203,7 @@ export default function HistoryView({ disposals, onBack, onViewMore, selectedDis
         }),
       }),
 
-      // NOVO: Animação de entrada do modal
+      // Animação de entrada do modal
       _jsx("style", {
         children: `
           @keyframes fadeScale {

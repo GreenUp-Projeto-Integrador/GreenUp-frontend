@@ -1,33 +1,37 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useNavigate } from "react-router";
-// NOVO: toast.success usado no lugar do PopUpCadastro
 import { toast } from "sonner";
 import InteractiveCadastro from "../components/InteractiveCadastro";
 import Cadastro from "../views/Cadastro";
+import { authApi } from "../../../shared/api/endpoints";
+import { errorMessage } from "../../../shared/api/http";
 
 export default function CadastroPage() {
   const navigate = useNavigate();
 
-  const handleCadastro = (name, email, password, confirmPassword) => {
+  const handleCadastro = async ( name, email, password, confirmPassword
+  ) => {
     if (!name || !email || !password || !confirmPassword) {
       toast.error("Por favor, preencha todos os campos");
       return;
     }
+
     if (password !== confirmPassword) {
       toast.error("As senhas não coincidem");
       return;
     }
-    // NOVO: toast.success do sonner 
-    toast.success("Cadastro realizado com sucesso!");
-    // NOVO: navega para /login após cadastro, conforme solicitado
-    setTimeout(() => {
+
+    try {
+      await authApi.register({ name, email, password, confirmPassword,});
+      toast.success("Cadastro realizado com sucesso!");
       navigate("/login");
-    }, 1050);
+    } catch (err) {
+      toast.error(errorMessage(err));
+    }
   };
 
   const handleGoogleLogin = () => {
-    // NOVO: toast.success do sonner + navega para /login
-    toast.success("Cadastro realizado com sucesso!");
+    toast.info("Login com Google ainda não disponível")
     setTimeout(() => {
       navigate("/login");
     }, 1050);

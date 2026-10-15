@@ -1,24 +1,16 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { toast, Toaster } from "sonner"; // NOVO: Toaster
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router";
+import { toast, Toaster } from "sonner"; 
 import DisposalView from "../views/DisposalView";
+import { disposalApi } from "../../../shared/api/endpoints";
+import { errorMessage } from "../../../shared/api/http";
 
-const disposalCategories = [
-  "Computadores",
-  "Smartphones",
-  "Tablets",
-  "Fones",
-  "Carregadores",
-  "Outros",
-];
-
-// MUDANÇA: opções do select em vez de 3 botões separados
 const trashLevelOptions = [
-  { value: "nivel1", label: "Nível 1" },
-  { value: "nivel2", label: "Nível 2" },
-  { value: "nivel3", label: "Nível 3" },
-  { value: "nivel4", label: "Nível 4" },
+  { value: "1", label: "Nível 1" },
+  { value: "2", label: "Nível 2" },
+  { value: "3", label: "Nível 3" },
+  { value: "4", label: "Nível 4" },
 ];
 
 export default function DisposalPage() {
@@ -27,7 +19,21 @@ export default function DisposalPage() {
   const [items, setItems] = useState("");
   const [photos, setPhotos] = useState([]);
   const [trashLevel, setTrashLevel] = useState(null);
-  const [selectedLevel, setSelectedLevel] = useState(""); // MUDANÇA: estado para o select
+  const [selectedLevel, setSelectedLevel] = useState(""); 
+
+  const [searchParams] = useSearchParams();
+  // O QR Code da lixeira abre /disposal?code=A1 e o código já vem preenchido
+  const [trashCode, setTrashCode] = useState(searchParams.get("code") ?? "");
+  const [quantity, setQuantity] = useState("1");
+  const [categoryList, setCategoryList] = useState([]); 
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    disposalApi
+      .categories()
+      .then(setCategoryList)
+      .catch((e) => toast.error(errorMessage(e)));
+  }, []);
 
   const handleCategoryToggle = (category) => {
     setSelectedCategories((prev) =>
@@ -42,7 +48,11 @@ export default function DisposalPage() {
     setPhotos((prev) => [...prev, ...files]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (trashCode.trim() === "") {
+      toast.error("Informe o código da lixeira");
+      return;
+    }
     if (selectedCategories.length === 0) {
       toast.error("Selecione pelo menos uma categoria");
       return;
@@ -51,25 +61,56 @@ export default function DisposalPage() {
       toast.error("Descreva os itens");
       return;
     }
+    if (Number(quantity) < 1) {
+      toast.error("Informe a quantidade de itens");
+      return;
+    }
     if (photos.length === 0) {
       toast.error("Adicione pelo menos uma foto");
       return;
     }
 
-    setTrashLevel("requesting"); // MUDANÇA: abre o popup
+    try {
+      await disposalApi.trashByCode(trashCode.trim());
+    } catch {
+      toast.error("Lixeira não encontrada. Confira o código.");
+      return;
+    }
+
+    setTrashLevel("requesting"); 
   };
 
-  // MUDANÇA: confirmação separada do handleSubmit
-  const handleConfirmLevel = () => {
+  const handleConfirmLevel = async () => {
     if (!selectedLevel) {
       toast.error("Selecione o nível da lixeira");
       return;
     }
-    setTrashLevel(null);
-    toast.success("Registro feito com sucesso");
-    setTimeout(() => {
-      navigate("/main");
-    }, 1000);
+    if (submitting) return;
+
+    const form = new FormData();
+    form.append("trashCode", trashCode.trim());
+    selectedCategories.forEach((name) => {
+      const cat = categoryList.find((c) => c.name === name);
+      if (cat) form.append("categories", cat.id);
+    });
+    form.append("quantity", quantity);
+    form.append("items", items);
+    form.append("trashLevel", selectedLevel);
+    photos.forEach((file) => form.append("photos", file));
+
+    try {
+      setSubmitting(true);
+      const disposal = await disposalApi.create(form);
+      setTrashLevel(null);
+      toast.success(`Registro feito com sucesso! +${disposal.points_awarded} pontos`);
+      setTimeout(() => {
+        navigate("/main");
+      }, 1000);
+    } catch (err) {
+      toast.error(errorMessage(err));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleBack = () => {
@@ -80,7 +121,6 @@ export default function DisposalPage() {
     className: "relative size-full overflow-hidden bg-white",
     children: [
 
-      // POPUP — MUDANÇA: layout completamente reestilizado conforme protótipo
       trashLevel === "requesting" &&
         _jsx("div", {
           className: "fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-6",
@@ -88,7 +128,7 @@ export default function DisposalPage() {
             className: "bg-white rounded-2xl p-6 w-full max-w-sm shadow-lg space-y-5",
             children: [
 
-              // Título — MUDANÇA: era "text-center font-bold" → alinhado à esquerda, estilo protótipo
+              // Título 
               _jsxs("div", {
                 children: [
                   _jsx("h2", {
@@ -102,7 +142,7 @@ export default function DisposalPage() {
                 ],
               }),
 
-              // Select — MUDANÇA: era 3 botões coloridos → dropdown "Selecione o nível"
+              // Select
               _jsxs("select", {
                 value: selectedLevel,
                 onChange: (e) => setSelectedLevel(e.target.value),
@@ -115,7 +155,7 @@ export default function DisposalPage() {
                 ],
               }),
 
-              // Botão confirmar — MUDANÇA: era múltiplos botões coloridos → 1 botão verde
+              // Botão confirmar 
               _jsx("button", {
                 onClick: handleConfirmLevel,
                 className: "w-full text-white py-3 rounded-full font-semibold text-sm transition hover:opacity-90",
@@ -127,12 +167,16 @@ export default function DisposalPage() {
         }),
 
       _jsx(DisposalView, {
-        categories: disposalCategories,
+        categories: categoryList.map((c) => c.name),
         selectedCategories: selectedCategories,
         items: items,
         photos: photos,
+        trashCode: trashCode,
+        quantity: quantity,
         onCategoryToggle: handleCategoryToggle,
         onItemsChange: setItems,
+        onTrashCodeChange: setTrashCode,
+        onQuantityChange: setQuantity,
         onPhotoUpload: handlePhotoUpload,
         onSubmit: handleSubmit,
         onBack: handleBack,

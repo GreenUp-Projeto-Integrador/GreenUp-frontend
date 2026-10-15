@@ -11,8 +11,6 @@ function SafariIcons() {
 }
 function Address() {
     return (_jsxs("div", { className: "-translate-x-1/2 absolute bottom-[11px] content-stretch flex gap-[4px] items-center justify-center left-[calc(50%-0.5px)]", "data-name": "address", children: [_jsx("div", { className: "overflow-clip relative shrink-0 size-[16px]", "data-name": ".icons/safari/lock", children: _jsx("div", { className: "-translate-x-1/2 -translate-y-1/2 absolute h-[13px] left-[calc(50%+0.5px)] top-[calc(50%+0.5px)] w-[9px]", "data-name": "Lock", children: _jsx("svg", { className: "absolute block size-full", fill: "none", preserveAspectRatio: "none", viewBox: "0 0 9 13", children: _jsx("path", { d: svgPaths.p272e6670, fill: "var(--fill-0, #676769)", id: "Lock" }) }) }) }),
-        // MUDANÇA: era font-['SF_Pro_Display:Regular',sans-serif]
-        // NOVO: font-normal — herda Poppins do body global (index.css)
         _jsx("p", { className: "font-normal leading-[normal] not-italic relative shrink-0 text-[#202124] text-[18px] text-center whitespace-nowrap", children: "greenup.com" })] }));
 }
 function SafariAddressBar() {
@@ -27,47 +25,25 @@ function GMark() {
 export default function Login() {
     return (_jsxs("div", { className: "bg-white relative size-full", "data-name": "Login", children: [_jsxs("div", { className: "absolute h-[73px] left-[101px] top-[69px] w-[70px]", "data-name": "Logo", children: [_jsx(Component1, {}), _jsx(Component, {})] }),
         _jsx("div", { className: "absolute content-stretch flex items-center justify-center left-[184px] top-[82px]", "data-name": "GreenUp", children:
-            // MUDANÇA: era font-['Poppins:SemiBold',sans-serif]
-            // NOVO: font-semibold — herda Poppins do body global (index.css)
             _jsx("div", { className: "flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[#6f9a7c] text-[32px] text-center whitespace-nowrap", children: _jsx("p", { className: "leading-[normal]", children: "GreenUp" }) }) }),
         _jsxs("div", { className: "absolute h-[61px] left-[40px] top-[171px] w-[350px]", "data-name": "Login/cadastro", children: [_jsx("div", { className: "absolute bg-[#f8f8f8] inset-0 rounded-[32px]" }), _jsx("div", { className: "absolute bg-[#f8c78d] inset-[10.29%_55.14%_10.29%_2%] rounded-[35px]" }),
             _jsx("div", { className: "absolute content-stretch flex inset-[27.94%_29.57%_27.94%_-23.57%] items-center justify-center", "data-name": "Título principal (H1 - Bold)", children:
-                // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-                // NOVO: font-medium — herda Poppins do body global (index.css)
                 _jsx("div", { className: "flex flex-col font-medium justify-center leading-[0] not-italic relative shrink-0 text-[19px] text-black whitespace-nowrap", children: _jsx("p", { className: "leading-[30px]", children: "Login" }) }) }),
             _jsx("div", { className: "absolute content-stretch flex inset-[27.94%_-22.71%_27.94%_28.71%] items-center justify-center", "data-name": "Título principal (H1 - Bold)", children:
-                // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-                // NOVO: font-medium — herda Poppins do body global (index.css)
                 _jsx("div", { className: "flex flex-col font-medium justify-center leading-[0] not-italic relative shrink-0 text-[19px] text-black whitespace-nowrap", children: _jsx("p", { className: "leading-[30px]", children: "Cadastrar" }) }) })] }),
         _jsx(SafariBottom, {}),
         _jsxs("div", { className: "absolute h-[15px] left-[35px] top-[510px] w-[360px]", "data-name": "Input Login/Barra 'ou'", children: [_jsx("div", { className: "absolute flex inset-[53.33%_53.33%_46.67%_2.86%] items-center justify-center", children: _jsx("div", { className: "flex-none h-px rotate-180 w-[134.94px]", children: _jsx("div", { className: "relative size-full", children: _jsx("div", { className: "absolute inset-[-1px_0_0_0]", children: _jsx("svg", { className: "block size-full", fill: "none", preserveAspectRatio: "none", viewBox: "0 0 157.722 1", children: _jsx("line", { id: "Line 7", stroke: "var(--stroke-0, #C5C5C5)", x2: "157.722", y1: "0.5", y2: "0.5" }) }) }) }) }) }), _jsx("div", { className: "absolute flex inset-[53.33%_2.76%_46.67%_53.43%] items-center justify-center", children: _jsx("div", { className: "flex-none h-px rotate-180 w-[134.94px]", children: _jsx("div", { className: "relative size-full", children: _jsx("div", { className: "absolute inset-[-1px_0_0_0]", children: _jsx("svg", { className: "block size-full", fill: "none", preserveAspectRatio: "none", viewBox: "0 0 157.722 1", children: _jsx("line", { id: "Line 7", stroke: "var(--stroke-0, #C5C5C5)", x2: "157.722", y1: "0.5", y2: "0.5" }) }) }) }) }) }),
-            // MUDANÇA: era font-['Inter:Regular',sans-serif]
-            // NOVO: font-normal — herda Poppins do body global (index.css)
             _jsx("div", { className: "absolute flex flex-col font-normal inset-[0_47.54%_0_47.63%] justify-center leading-[0] not-italic text-[#c5c5c5] text-[12px] text-center", children: _jsx("p", { className: "leading-[normal]", children: "ou" }) })] }),
         _jsxs("div", { className: "absolute h-[43px] left-[45px] top-[540px] w-[340px]", "data-name": "Login Google", children: [_jsx("div", { className: "absolute bg-[#f7f7f7] inset-0 rounded-[40px] shadow-[0px_4px_9px_0px_rgba(0,0,0,0.15)]" }), _jsx(GMark, {}),
-            // MUDANÇA: era font-['Poppins:Regular',sans-serif]
-            // NOVO: font-normal — herda Poppins do body global (index.css)
             _jsx("p", { className: "absolute font-normal inset-[20.93%_22.06%_27.91%_31.47%] leading-[normal] not-italic text-[17px] text-[rgba(0,0,0,0.45)]", children: "Login com Google" })] }),
         _jsxs("div", { className: "absolute content-stretch flex flex-col gap-[5px] h-[79px] items-start left-[32px] px-[13px] py-px top-[257px] w-[366px]", "data-name": "Input Login", children: [
-            // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-            // NOVO: font-medium — herda Poppins do body global (index.css)
             _jsx("p", { className: "font-medium leading-[normal] not-italic relative shrink-0 text-[15px] text-black whitespace-nowrap", children: "E-mail" }), _jsx("div", { className: "h-[42px] relative rounded-[10px] shrink-0 w-[340px]", children: _jsx("div", { "aria-hidden": "true", className: "absolute border-[#d9d9d9] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[10px]" }) }),
-            // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-            // NOVO: font-medium — herda Poppins do body global (index.css)
             _jsx("p", { className: "absolute font-medium inset-[49.37%_54.1%_21.52%_7.1%] leading-[normal] not-italic text-[#a3a3a3] text-[15px] whitespace-nowrap", children: "nome@gmail.com" })] }),
         _jsxs("div", { className: "absolute content-stretch flex flex-col gap-[5px] h-[93px] items-start left-[32px] px-[13px] py-px top-[339px] w-[366px]", "data-name": "Input Login", children: [
-            // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-            // NOVO: font-medium — herda Poppins do body global (index.css)
             _jsx("p", { className: "font-medium leading-[normal] not-italic relative shrink-0 text-[15px] text-black whitespace-nowrap", children: "Senha" }), _jsx("div", { className: "h-[42px] relative rounded-[10px] shrink-0 w-[340px]", children: _jsx("div", { "aria-hidden": "true", className: "absolute border-[#d9d9d9] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[10px]" }) }),
-            // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-            // NOVO: font-medium — herda Poppins do body global (index.css)
             _jsx("div", { className: "absolute flex flex-col font-medium inset-[39.34%_86.61%_31.54%_7.1%] justify-center leading-[0] not-italic text-[#a3a3a3] text-[15px]", children: _jsx("p", { className: "leading-[normal]", children: "***" }) }),
-            // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-            // NOVO: font-medium — herda Poppins do body global (index.css)
             _jsx("div", { className: "absolute flex flex-col font-medium inset-[76.34%_3.01%_0_60.66%] justify-center leading-[0] not-italic text-[#a3a3a3] text-[12px]", children: _jsx("p", { className: "leading-[normal]", children: "Esqueci minha senha" }) })] }),
         _jsx("div", { className: "absolute h-[16px] left-[351px] top-[381px] w-[19px]", "data-name": "Vector", children: _jsx("svg", { className: "absolute block size-full", fill: "none", preserveAspectRatio: "none", viewBox: "0 0 19 16", children: _jsx("path", { d: svgPaths.p110f0130, fill: "var(--fill-0, #A3A3A3)", id: "Vector" }) }) }),
         _jsx("button", { className: "absolute bg-[#f8c78d] block cursor-pointer h-[43px] left-[45px] rounded-[20px] shadow-[0px_4px_9px_0px_rgba(0,0,0,0.15)] top-[452px] w-[340px]", "data-name": "Botões de confirmar", children: _jsx("div", { className: "-translate-x-1/2 -translate-y-1/2 absolute content-stretch flex items-center justify-center left-[calc(50%-0.5px)] top-[calc(50%+0.5px)]", "data-name": "Título principal (H1 - Bold)", children:
-            // MUDANÇA: era font-['Poppins:Medium',sans-serif]
-            // NOVO: font-medium — herda Poppins do body global (index.css)
             _jsx("div", { className: "flex flex-col font-medium justify-center leading-[0] not-italic relative shrink-0 text-[17px] text-black text-left whitespace-nowrap", children: _jsx("p", { className: "leading-[30px]", children: "Confirmar" }) }) }) })] }));
 }

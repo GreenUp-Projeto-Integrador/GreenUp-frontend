@@ -1,26 +1,28 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-// NOVO: toast da biblioteca "sonner" — já configurada no Root.tsx com <Toaster position="top-center" />
 import { toast } from "sonner";
 import UserDataView from "../views/UserDataView";
-import { mockUserData } from "../../../shared/mockData";
+import { userApi } from "../../../shared/api/endpoints";
+import { errorMessage } from "../../../shared/api/http";
+import { useAuth } from "../../auth/AuthContext";
 
 export default function UserDataPage() {
   const navigate = useNavigate();
-  const [userData] = useState(mockUserData);
+  const { setUser } = useAuth();
+  const [userData, setUserData] = useState(null);
+  useEffect(() => { userApi.me().then(setUserData).catch((e) => toast.error(errorMessage(e))); }, []);
 
-  // MUDANÇA: era apenas navigate("/account")
-  // NOVO: handleSave recebe os dados editados do UserDataView,
-  // dispara toast.success e depois navega para /account com 500ms de delay
-  // (delay garante que o usuário veja o toast antes da troca de tela)
-  const handleSave = (updatedData) => {
-    // NOVO: ponto de integração futura com API (ex: await updateUser(updatedData))
+const handleSave = async (form) => {
+  try {
+    const updated = await userApi.update({ ...form, cpf: form.cpf || null });
+    setUser(updated);
     toast.success("Dados salvos com sucesso!");
-    setTimeout(() => {
-      navigate("/account");
-    }, 500);
-  };
+    navigate("/account");
+  } catch (err) { toast.error(errorMessage(err)); }
+};
+
+  if (!userData) return _jsx("p", { className: "p-6 text-sm", children: "Carregando…" });
 
   const handleBack = () => {
     navigate("/account");
@@ -32,8 +34,6 @@ export default function UserDataPage() {
       _jsx(UserDataView, {
         userData: userData,
         onBack: handleBack,
-        // NOVO: prop onSave conectada ao handleSave acima
-        // O UserDataView chama onSave(formData) ao clicar em "Salvar informações"
         onSave: handleSave,
       }),
     ],

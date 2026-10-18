@@ -3,5 +3,10 @@ dist
 .env
 .env.local
 bun.lock
+.claude/
+
 .wrangler
 .dev.vars*
+!.dev.vars.example
+.env*
+!.env.example

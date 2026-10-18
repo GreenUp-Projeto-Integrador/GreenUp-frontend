@@ -1,18 +1,27 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import AppHeader from "../../../shared/components/AppHeader"; 
 
+const MAX_CODE = 2;
+const MAX_DESC = 200;
+const MAX_FILES = 2;
+const MAX_MB = 5;
+
 export default function DisposalView({
   categories,
   selectedCategories,
   items,
   photos,
-  trashCode, 
-  quantity, 
+  trashCode,
+  quantity,
   onCategoryToggle,
   onItemsChange,
   onTrashCodeChange,
+  onTrashCodeBlur,
+  onScanQr,
   onQuantityChange,
+  onQuantityInvalid,
   onPhotoUpload,
+  onRemovePhoto,
   onSubmit,
   onBack,
 }) {
@@ -38,28 +47,51 @@ export default function DisposalView({
           }),
         ],
       }),
-      // Content
+      // 
       _jsx("div", {
         className: "flex-1 overflow-y-auto px-6 py-6 space-y-6",
         children: _jsxs("div", {
-          className: "space-y-6",
+          className: "space-y-2",
           children: [
+            // Codigo e QrCode da lixeira
             _jsxs("div", {
               children: [
                 _jsx("p", {
                   className: "font-semibold text-black mb-2 text-sm",
                   children: "Código da lixeira (QR Code):",
                 }),
-                _jsx("input", {
-                  value: trashCode,
-                  onChange: (e) => onTrashCodeChange(e.target.value),
-                  placeholder: "Ex.: A1",
-                  className:
-                    "w-full p-3 border border-gray-300 rounded-lg focus:outline-none text-sm text-gray-500",
-                }),
+                _jsxs("div", {
+                  className: "flex items-start gap-2",
+                  children: [
+                    _jsxs("div", {
+                      className: "flex-1 min-w-0 flex flex-col gap-1",
+                      children: [
+                        _jsx("input", {
+                          value: trashCode,
+                          maxLength: MAX_CODE,
+                          onChange: (e) =>
+                            onTrashCodeChange(e.target.value.toUpperCase()),
+                          onBlur: onTrashCodeBlur,
+                          placeholder: "Ex.: A1",
+                          className:
+                            "w-full p-3 border border-[#6F9A7C] rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-0 focus:border-2 focus:border-[#6F9A7C]",
+                        }),
+                      ],
+                    }),
+                    // Qr Code
+                    _jsx("button", {
+                      type: "button",
+                      onClick: onScanQr,
+                      className:
+                        "px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap transition hover:opacity-90",
+                      style: { backgroundColor: "#B8502B" },
+                      children: "Ler QR Code",
+                    }),
+            ],
+              }),
               ],
             }),
-            // Categories
+            // Categorias
             _jsxs("div", {
               children: [
                 _jsx("p", {
@@ -80,10 +112,10 @@ export default function DisposalView({
                               type: "checkbox",
                               checked: selectedCategories.includes(category),
                               onChange: () => onCategoryToggle(category),
-                              className: "w-4 h-4 rounded-none border border-gray-400 accent-gray-600",
+                              className: "w-4 h-4 rounded-none border border-[#6F9A7C] accent-[#6F9A7C]",
                             }),
                             _jsx("span", {
-                              className: "text-gray-800 text-sm", 
+                              className: "text-gray-800 text-sm ", 
                               children: category,
                             }),
                           ],
@@ -95,7 +127,7 @@ export default function DisposalView({
                 }),
               ],
             }),
-            // Items description
+            // Descricao
             _jsxs("div", {
               children: [
                 _jsx("p", {
@@ -104,13 +136,19 @@ export default function DisposalView({
                 }),
                 _jsx("input", {
                   value: items,
+                  maxLength: MAX_DESC,
                   onChange: (e) => onItemsChange(e.target.value),
                   placeholder: "Lista de eletrônicos",
                   className:
-                    "w-full p-3 border border-gray-300 rounded-lg focus:outline-none text-sm text-gray-500",
+                    "w-full p-3 border border-[#6F9A7C] rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-0 focus:border-2 focus:border-[#6F9A7C]",
+                }),
+                _jsx("p", {
+                  className: "mt-1 text-right text-xs text-gray-500 leading-none",
+                  children: `${(items || "").length}/${MAX_DESC}`,
                 }),
               ],
             }),
+            // Quantidade de Itens
             _jsxs("div", {
               children: [
                 _jsx("p", {
@@ -120,34 +158,41 @@ export default function DisposalView({
                 _jsx("input", {
                   type: "number",
                   min: 1,
+                  max: 5,
+                  step: 1,
                   value: quantity,
-                  onChange: (e) => onQuantityChange(e.target.value),
-                  placeholder: "Quantidade",
+                  onChange: (e) => {
+                    const value = e.target.value;
+
+                    onQuantityChange(value);
+
+                    if (value !== "" && Number(value) > 5) {
+                      onQuantityInvalid?.();
+                    }
+                  },
+                  placeholder: "Digite de 1 a 5 itens",
                   className:
-                    "w-full p-3 border border-gray-300 rounded-lg focus:outline-none text-sm text-gray-500",
+                    "w-full p-3 border border-[#6F9A7C] rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-0 focus:border-2 focus:border-[#6F9A7C]",
                 }),
               ],
             }),
-            // Photo upload
+            // Anexar Foto
             _jsxs("div", {
               children: [
                 _jsx("p", {
-                  className: "font-semibold text-black mb-2 text-sm", 
+                  className: "font-semibold text-black mb-2 text-sm",
                   children: "Registre esse momento com uma foto desses itens:",
                 }),
+
                 _jsx("label", {
                   className:
-                    "w-full border-2 border-dashed border-teal-400 rounded-xl p-10 text-center cursor-pointer bg-teal-50/40 hover:bg-teal-50 transition flex items-center justify-center",
+                    "block w-full text-center text-sm py-5 rounded-lg border-2 border-dashed border-[#6F9A7C] text-[#6F9A7C] bg-[#6F9A7C]/10 hover:bg-[#6F9A7C]/20 transition",
                   children: _jsxs("div", {
-                    className: "flex items-center gap-2 text-teal-600",
+                    className: "flex flex-col items-center gap-2 text-[#6F9A7C]",
                     children: [
                       _jsx("p", {
                         className: "text-sm",
-                        children: "Toque para adicionar imagens",
-                      }),
-                      _jsx("span", {
-                        className: "text-lg",
-                        children: "⊕", 
+                        children: "Adicionar imagens",
                       }),
                       _jsx("input", {
                         type: "file",
@@ -159,13 +204,37 @@ export default function DisposalView({
                     ],
                   }),
                 }),
-                photos.length > 0 &&
-                  _jsx("div", {
-                    className: "mt-3 text-sm text-teal-600", 
-                    children: `${photos.length} imagem(ns) adicionada(s)`,
-                  }),
+
+                _jsx("p", {
+                  className: "text-xs text-gray-500 mt-1",
+                  children: `Até ${MAX_FILES} arquivos de ${MAX_MB} MB cada`,
+                }),
+
+                photos.map((f, i) =>
+                  _jsxs("div", {
+                    className:
+                      "flex items-center justify-between text-xs text-gray-600 mt-2 gap-2",
+                    children: [
+                      _jsx("span", {
+                        className: "truncate",
+                        children: f.name,
+                      }),
+
+                      _jsx("button", {
+                          type: "button",
+                          onClick: () => onRemovePhoto(i),
+                          "aria-label": "Remover imagem",
+                          className: "shrink-0 px-2 py-1",
+                          style: {
+                            color: "#B8502B",
+                          },
+                          children: "✕",
+                        })
+                    ],
+                  }, i)
+                ),
               ],
-            }),
+            })
           ],
         }),
       }),

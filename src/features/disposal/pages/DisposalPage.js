@@ -5,6 +5,8 @@ import { toast, Toaster } from "sonner";
 import DisposalView from "../views/DisposalView";
 import { disposalApi } from "../../../shared/api/endpoints";
 import { errorMessage } from "../../../shared/api/http";
+import { comingSoon } from "../../../shared/comingSoon";
+import { CloseButton } from "../../../shared/components/SidebarMenu";
 
 const trashLevelOptions = [
   { value: "1", label: "Nível 1" },
@@ -19,10 +21,10 @@ export default function DisposalPage() {
   const [items, setItems] = useState("");
   const [photos, setPhotos] = useState([]);
   const [trashLevel, setTrashLevel] = useState(null);
-  const [selectedLevel, setSelectedLevel] = useState(""); 
+  const [selectedLevel, setSelectedLevel] = useState("");
+  const [levelOpen, setLevelOpen] = useState(false); 
 
   const [searchParams] = useSearchParams();
-  // O QR Code da lixeira abre /disposal?code=A1 e o código já vem preenchido
   const [trashCode, setTrashCode] = useState(searchParams.get("code") ?? "");
   const [quantity, setQuantity] = useState("1");
   const [categoryList, setCategoryList] = useState([]); 
@@ -48,6 +50,26 @@ export default function DisposalPage() {
     setPhotos((prev) => [...prev, ...files]);
   };
 
+  const handleTrashCodeBlur = async () => {
+  const code = trashCode.trim();
+
+  if (!code) return;
+
+  try {
+    await disposalApi.trashByCode(code);
+  } catch {
+    toast.error("Lixeira não encontrada. Confira o código.");
+  }
+  };
+
+  const handleQuantityInvalid = () => {
+    toast.error("A quantidade máxima é de 5 itens");
+  };
+
+  const onRemovePhoto = (index) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async () => {
     if (trashCode.trim() === "") {
       toast.error("Informe o código da lixeira");
@@ -61,8 +83,10 @@ export default function DisposalPage() {
       toast.error("Descreva os itens");
       return;
     }
-    if (Number(quantity) < 1) {
-      toast.error("Informe a quantidade de itens");
+    const amount = Number(quantity);
+
+    if (!Number.isInteger(amount) || amount < 1 || amount > 5) {
+      toast.error("A quantidade deve ser de 1 a 5 itens");
       return;
     }
     if (photos.length === 0) {
@@ -127,34 +151,76 @@ export default function DisposalPage() {
           children: _jsxs("div", {
             className: "bg-white rounded-2xl p-6 w-full max-w-sm shadow-lg space-y-5",
             children: [
-
               // Título 
               _jsxs("div", {
+                className: "space-y-1",
                 children: [
-                  _jsx("h2", {
-                    className: "text-lg font-semibold text-black",
-                    children: "Só mais uma coisinha,",
+                  _jsxs("div", {
+                    className: "flex items-center justify-between gap-2",
+                    children: [
+                      _jsx("h2", {
+                        className: "text-lg font-semibold text-black",
+                        children: "Só mais uma coisinha,",
+                      }),
+                      _jsx(CloseButton, {
+                        onClose: () => setTrashLevel(null),
+                      }),
+                    ],
                   }),
                   _jsx("p", {
-                    className: "text-sm text-gray-700 mt-1",
+                    className: "text-sm text-gray-700",
                     children: "Qual é nível de ocupação da lixeira?",
                   }),
                 ],
               }),
-
               // Select
-              _jsxs("select", {
-                value: selectedLevel,
-                onChange: (e) => setSelectedLevel(e.target.value),
-                className: "w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-500 focus:outline-none appearance-none bg-white",
+              _jsxs("div", {
+                className: "relative w-full",
                 children: [
-                  _jsx("option", { value: "", disabled: true, children: "Selecione o nível" }),
-                  ...trashLevelOptions.map((opt) =>
-                    _jsx("option", { value: opt.value, children: opt.label }, opt.value)
-                  ),
+                  // Campo que abre o menu
+                  _jsx("button", {
+                    type: "button",
+                    onClick: () => setLevelOpen((prev) => !prev),
+                    className:
+                      "w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-left bg-white flex items-center justify-between font-['Poppins'] font-normal",
+                    children: [
+                      _jsx("span", {
+                        className: selectedLevel ? "text-gray-800" : "text-gray-500",
+                        children:
+                          trashLevelOptions.find(
+                            (opt) => opt.value === selectedLevel
+                          )?.label || "Selecione o nível",
+                      }),
+                      _jsx("span", {
+                        children: "▾",
+                      }),
+                    ],
+                  }),
+
+                  // Opções do menu
+                  levelOpen &&
+                    _jsx("div", {
+                      className:
+                        "absolute left-0 top-full mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg z-[60] overflow-hidden",
+                      children: trashLevelOptions.map((opt) =>
+                        _jsx(
+                          "button",
+                          {
+                            type: "button",
+                            onClick: () => {
+                              setSelectedLevel(opt.value);
+                              setLevelOpen(false);
+                            },
+                            className:
+                              "w-full px-4 py-3 text-left text-sm text-gray-700 font-['Poppins'] font-normal hover:bg-[#6F9A7C] hover:text-white",
+                            children: opt.label,
+                          },
+                          opt.value
+                        )
+                      ),
+                    }),
                 ],
               }),
-
               // Botão confirmar 
               _jsx("button", {
                 onClick: handleConfirmLevel,
@@ -176,10 +242,14 @@ export default function DisposalPage() {
         onCategoryToggle: handleCategoryToggle,
         onItemsChange: setItems,
         onTrashCodeChange: setTrashCode,
+        onTrashCodeBlur: handleTrashCodeBlur,
+        onScanQr: () => comingSoon("Leitura de QR Code pela câmera"),
         onQuantityChange: setQuantity,
+        onQuantityInvalid: handleQuantityInvalid,
         onPhotoUpload: handlePhotoUpload,
         onSubmit: handleSubmit,
         onBack: handleBack,
+        onRemovePhoto
       }),
     ],
   });

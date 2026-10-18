@@ -1,8 +1,12 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../features/auth/AuthContext";
 import svgPaths from "../../features/dashboard/views/svg-ani2nrow18";
+import NotificationsPopup from "./NotificationsPopup";
+import TrashBinsPopup from "./TrashBinsPopup";
+import { notificationApi } from "../api/endpoints";
+import { canSeeManagerArea, isManager } from "../access";
 
 // Ícone de Home
 function IconHome() {
@@ -62,8 +66,31 @@ function IconLogout() {
   });
 }
 
+// Estilização dos ícones abaixo
+const iconProps = { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "#B8502B", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round" };
+
+// Ícone de Notificação
+function IconBell() {
+    return _jsxs("svg", { ...iconProps, children: [_jsx("path", { d: "M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" }), _jsx("path", { d: "M13.7 21a2 2 0 01-3.4 0" })] });
+}
+
+// Ícone de Lixeira
+function IconTrash() {
+    return _jsx("svg", { ...iconProps, children: _jsx("path", { d: "M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" }) });
+}
+
+// Ícone de Mapa
+function IconMap() {
+    return _jsxs("svg", { ...iconProps, children: [_jsx("path", { d: "M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z" }), _jsx("circle", { cx: 12, cy: 10, r: 2.5 })] });
+}
+
+// Ícone de Suporte
+function IconSupport() {
+    return _jsx("svg", { ...iconProps, children: _jsx("path", { d: "M4 14v-2a8 8 0 0116 0v2M4 14h3v5H5a1 1 0 01-1-1v-4zM20 14h-3v5h2a1 1 0 001-1v-4zM17 19c0 1.5-1.5 2-5 2" }) });
+}
+
 // Botão X verde
-function CloseButton({ onClose }) {
+export function CloseButton({ onClose }) {
   return _jsx("button", {
     onClick: onClose,
     className: "text-white text-sm font-bold flex items-center justify-center transition hover:opacity-80",
@@ -152,6 +179,7 @@ function AjudaModal({ onClose }) {
     { icon: "▶", label: "YouTube", value: "GreenUp Oficial" },
   ];
 
+  // Ajuda
   return _jsx("div", {
     className: "fixed inset-0 z-50 flex items-center justify-center px-6",
     style: { backgroundColor: "rgba(0,0,0,0.45)", backdropFilter: "blur(3px)" },
@@ -217,9 +245,22 @@ function AjudaModal({ onClose }) {
 // Componente principal 
 export default function SidebarMenu({ isOpen, onClose }) {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const {logout, user} = useAuth();
   const [showFaleConosco, setShowFaleConosco] = useState(false);
   const [showAjuda, setShowAjuda] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showTrashBins, setShowTrashBins] = useState(false);
+  const [unread, setUnread] = useState(0);
+  const managerArea = canSeeManagerArea(user)
+
+  // Contador de não lidas
+  useEffect(() => {
+    if (!isOpen || !isManager(user)) return;
+      notificationApi
+      .list()
+      .then((list) => setUnread(list.filter((n) => !n.readAt).length))
+      .catch(() => {});
+  }, [isOpen, user]);
 
   const handleNavigate = (path) => {
     onClose();
@@ -231,6 +272,29 @@ export default function SidebarMenu({ isOpen, onClose }) {
       icon: _jsx(IconHome, {}),
       label: "Tela principal",
       action: () => handleNavigate("/main"),
+    },
+     // Área do gestor (aparece para todos enquanto SHOW_MANAGER_AREA_TO_ALL for true)
+    ...(managerArea
+    ? [
+      { icon: _jsx(IconBell, {}), 
+        label: "Notificações", 
+        badge: unread, 
+        action: () => { onClose(); setShowNotifications(true); } 
+      },
+      { icon: _jsx(IconTrash, {}),
+        label: "Lixeiras",
+        action: () => { onClose(); setShowTrashBins(true); } },
+    ]: 
+    []),
+    { 
+      icon: _jsx(IconMap, {}), 
+      label: "Pontos de coleta", 
+      action: () => handleNavigate("/map") 
+    },
+    { 
+      icon: _jsx(IconSupport, {}), 
+      label: "Suporte", 
+      action: () => handleNavigate("/support") 
     },
     {
       icon: _jsx(IconLogin, {}),
@@ -250,6 +314,7 @@ export default function SidebarMenu({ isOpen, onClose }) {
     },
   ];
 
+  //  Ajuda
   const bottomItems = [
     {
       icon: _jsx(IconHelp, {}),
@@ -293,7 +358,7 @@ export default function SidebarMenu({ isOpen, onClose }) {
         // Menu items principais
         _jsx("div", {
           className: "flex-1 px-3 py-4 space-y-1 overflow-y-auto",
-          children: menuItems.map(({ icon, label, action, style }, i) =>
+          children: menuItems.map(({ icon, label, action, style, badge }, i) =>
             _jsxs("button", {
               onClick: action,
               className: "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition hover:bg-gray-50 active:bg-gray-100",
@@ -303,6 +368,11 @@ export default function SidebarMenu({ isOpen, onClose }) {
                   className: "text-sm font-medium text-black",
                   style: style || {},
                   children: label,
+                }),
+                badge > 0 && _jsx("span", {
+                  className: "ml-auto text-xs text-white px-2 py-0.5 rounded-full",
+                  style: { background: "#B8502B" },
+                  children: badge,
                 }),
               ],
             }, i)
@@ -335,6 +405,8 @@ export default function SidebarMenu({ isOpen, onClose }) {
     // Modais
     showFaleConosco && _jsx(FaleConoscoModal, { onClose: () => setShowFaleConosco(false) }),
     showAjuda && _jsx(AjudaModal, { onClose: () => setShowAjuda(false) }),
+    showNotifications && _jsx(NotificationsPopup, { onClose: () => setShowNotifications(false) }),
+    showTrashBins && _jsx(TrashBinsPopup, { onClose: () => setShowTrashBins(false) }),
 
   ]});
 }

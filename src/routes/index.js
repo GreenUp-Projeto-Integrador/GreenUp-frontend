@@ -10,27 +10,39 @@ import AccountPage from "../features/account/pages/AccountPage";
 import UserDataPage from "../features/user-data/pages/UserDataPage";
 import DisposalPage from "../features/disposal/pages/DisposalPage";
 import ProtectedRoute from "./ProtectedRoute";
+import ManagerRoute from "./ManagerRoute";
+import MapPage from "../features/map/pages/MapPage";
+import NotificationsPage from "../features/notifications/pages/NotificationsPage";
+import TrashBinsPage from "../features/trash-bins/pages/TrashBinsPage";
+import SupportPage from "../features/support/pages/SupportPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
     children: [
-  { index: true, Component: LoginPage },
-  { path: "login", Component: LoginPage },
-  { path: "cadastro", Component: CadastroPage },
-  {
-    Component: ProtectedRoute,               
-    children: [
-      { path: "main", Component: MainPage },
-      { path: "history", Component: HistoryPage },
-      { path: "ranking", Component: RankingPage },
-      { path: "dashboard", Component: DashboardStatsPage },
-      { path: "account", Component: AccountPage },
-      { path: "user-data", Component: UserDataPage },
-      { path: "disposal", Component: DisposalPage },
+      { index: true, Component: LoginPage },
+      { path: "login", Component: LoginPage },
+      { path: "cadastro", Component: CadastroPage },
+      { Component: ProtectedRoute,               
+          children: [
+            { path: "main", Component: MainPage },
+            { path: "history", Component: HistoryPage },
+            { path: "ranking", Component: RankingPage },
+            { path: "dashboard", Component: DashboardStatsPage },
+            { path: "account", Component: AccountPage },
+            { path: "user-data", Component: UserDataPage },
+            { path: "disposal", Component: DisposalPage },
+            { path: "map", Component: MapPage },
+            { path: "support", Component: SupportPage },
+            { Component: ManagerRoute,
+                children: [
+                  { path: "notifications", Component: NotificationsPage },
+                  { path: "trash-bins", Component: TrashBinsPage },
+                ],
+            },
+          ],
+      },
     ],
-  },
-],
   },
 ]);

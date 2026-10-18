@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { comingSoon } from "../../../shared/comingSoon";
 import InteractiveCadastro from "../components/InteractiveCadastro";
 import Cadastro from "../views/Cadastro";
 import { authApi } from "../../../shared/api/endpoints";
@@ -21,6 +22,7 @@ export default function CadastroPage() {
       return;
     }
 
+    // Integração
     try {
       await authApi.register({ name, email, password, confirmPassword,});
       toast.success("Cadastro realizado com sucesso!");
@@ -31,10 +33,7 @@ export default function CadastroPage() {
   };
 
   const handleGoogleLogin = () => {
-    toast.info("Login com Google ainda não disponível")
-    setTimeout(() => {
-      navigate("/login");
-    }, 1050);
+    comingSoon("Cadastro com Google");
   };
 
   const handleSwitchToLogin = () => {

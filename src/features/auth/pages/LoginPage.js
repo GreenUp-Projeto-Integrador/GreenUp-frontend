@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
+import { comingSoon } from "../../../shared/comingSoon";
 import InteractiveLogin from "../components/InteractiveLogin";
 import Login from "../views/Login";
 import { useAuth } from "../AuthContext";
@@ -12,6 +13,7 @@ export default function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Integração Login
   const handleLogin = async (email, password) => {
     if (!email || !password) { toast.error("Por favor, preencha todos os campos"); return; }
     try {
@@ -25,10 +27,11 @@ export default function LoginPage() {
   };
 
   const handleGoogleLogin = () => {
-    toast.info("Login com Google ainda não disponível");
-    setTimeout(() => {
-      navigate("/main");
-    }, 1500);
+    comingSoon("Login com Google");
+  };
+
+  const handleForgotPassword = () => {
+    comingSoon("Recuperação de senha");
   };
 
   const handleSwitchToCadastro = () => {
@@ -45,7 +48,9 @@ export default function LoginPage() {
       _jsx(InteractiveLogin, {
         onLogin: handleLogin,
         onGoogleLogin: handleGoogleLogin,
+        onForgotPassword: handleForgotPassword,
         onSwitchToCadastro: handleSwitchToCadastro,
+        onForgotPassword: handleForgotPassword,
       }),
     ],
   });

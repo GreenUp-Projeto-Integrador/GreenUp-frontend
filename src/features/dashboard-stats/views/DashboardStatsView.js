@@ -34,7 +34,7 @@ function StatGrid({ items }) {
   });
 }
 
-export default function DashboardStatsView({ data, onBack, onIntervalChange }) {
+export default function DashboardStatsView({ data, onBack, onIntervalChange, footer }) {
   const [selectedInterval, setSelectedInterval] = useState("6months");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -70,7 +70,7 @@ export default function DashboardStatsView({ data, onBack, onIntervalChange }) {
           className: "space-y-8",
           children: [
 
-            // ── Bloco 1: Gráfico de linha ──
+            // Gráfico de linha ──
             _jsxs("div", {
               children: [
                 _jsx("h2", {
@@ -133,7 +133,7 @@ export default function DashboardStatsView({ data, onBack, onIntervalChange }) {
               ],
             }),
 
-            // ── Bloco 2: Gráfico de pizza ──
+            // Gráfico de pizza
             _jsxs("div", {
               children: [
                 _jsx("h2", {
@@ -186,7 +186,7 @@ export default function DashboardStatsView({ data, onBack, onIntervalChange }) {
               ],
             }),
 
-            // ── NOVO Bloco 3: Tempo médio para lixeiras atingirem nível 4 ──
+            // Tempo médio para lixeiras atingirem nível 4 
             _jsxs("div", {
               children: [
                 _jsx("h2", {
@@ -204,7 +204,7 @@ export default function DashboardStatsView({ data, onBack, onIntervalChange }) {
               ],
             }),
 
-            // ── NOVO Bloco 4: Tempo médio para coleta ──
+            // Tempo médio para coleta
             _jsxs("div", {
               children: [
                 _jsx("h2", {
@@ -225,7 +225,7 @@ export default function DashboardStatsView({ data, onBack, onIntervalChange }) {
                 }),
               ],
             }),
-
+            footer, 
           ],
         }),
       }),

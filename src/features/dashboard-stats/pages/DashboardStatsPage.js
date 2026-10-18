@@ -3,14 +3,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import DashboardStatsView from "../views/DashboardStatsView";
-import { dashboardApi } from "../../../shared/api/endpoints";
 import { errorMessage } from "../../../shared/api/http";
+import { dashboardApi, userApi, collectionApi } from "../../../shared/api/endpoints";
+import DashboardManager from "../components/DashboardManager";
 
 const COLORS = [ "#2D6A6A", "#E8894A", "#C14600", "#F8C78D", "#6F9A7C", "#A8D5B5",];
 const MONTHS = { Jan: "Jan", Feb: "Fev", Mar: "Mar", Apr: "Abr", May: "Mai", Jun: "Jun", Jul: "Jul", Aug: "Ago", Sep: "Set", Oct: "Out", Nov: "Nov", Dec: "Dez",};
 const NO_DATA = { last6months: "—", lastMonth: "—", last3months: "—", lastTime: "—",};
 
 const adapt = (raw) => ({
+  totals: raw.totals, 
   disposals: (raw.disposals ?? []).map((d) => ({
     ...d,
     month: MONTHS[d.month] ?? d.month,
@@ -29,6 +31,15 @@ export default function DashboardStatsPage() {
   const navigate = useNavigate();
 
   const [period, setPeriod] = useState("6months");
+  const [summary, setSummary] = useState(null);
+  const [points, setPoints] = useState(null);
+
+    // Integração
+  useEffect(() => {
+    userApi.summary().then(setSummary).catch(() => {});
+    collectionApi.points().then(setPoints).catch(() => {});
+  }, []);
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
@@ -97,6 +108,7 @@ export default function DashboardStatsPage() {
         data: data,
         onBack: handleBack,
         onIntervalChange: setPeriod,
+        footer: _jsx(DashboardManager, { totals: data.totals, summary, points }),
       }),
     ],
   });

@@ -10,9 +10,11 @@ export default function MainPage() {
     const navigate = useNavigate();
     const { logout } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     const handleSidebarToggle = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
     const handleSidebarClick = (e) => {
         const target = e.target;
         // Handle logout
@@ -27,17 +29,21 @@ export default function MainPage() {
             setIsSidebarOpen(false);
         }
     };
+
     const handleCardNavigation = (cardType) => {
         const routes = {
             disposal: "/disposal",
             history: "/history",
             ranking: "/ranking",
+            map: "/map",
+            trashbins: "/trash-bins",
             dashboard: "/dashboard",
         };
         if (routes[cardType]) {
             navigate(routes[cardType]);
         }
     };
+    
     return (_jsxs("div", { className: "relative size-full overflow-hidden", children: [_jsx("div", { className: "size-full", onClick: (e) => {
                     const target = e.target.closest('button');
                     // Handle hamburger menu click

@@ -1,9 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import AppHeader from "../../../shared/components/AppHeader"; // NOVO
+import AppHeader from "../../../shared/components/AppHeader"; 
 
-// NOVO: opções do filtro de intervalo
 const intervalOptions = [
   { label: "Último ano",    value: "year" },
   { label: "Últimos 6 meses", value: "6months" },
@@ -12,7 +11,6 @@ const intervalOptions = [
   { label: "Todos os tempos", value: "all" },
 ];
 
-// NOVO: componente reutilizável para os cards de tempo médio
 function StatGrid({ items }) {
   return _jsx("div", {
     className: "grid grid-cols-2 gap-3",
@@ -27,7 +25,7 @@ function StatGrid({ items }) {
           }),
           _jsx("p", {
             className: "text-2xl font-semibold",
-            style: { color: "#B8502B"}, // cor laranja dos valores
+            style: { color: "#B8502B"}, 
             children: value,
           }),
         ],
@@ -36,8 +34,7 @@ function StatGrid({ items }) {
   });
 }
 
-export default function DashboardStatsView({ data, onBack }) {
-  // NOVO: estado para controlar o intervalo selecionado e dropdown aberto
+export default function DashboardStatsView({ data, onBack, onIntervalChange, footer }) {
   const [selectedInterval, setSelectedInterval] = useState("6months");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -48,21 +45,19 @@ export default function DashboardStatsView({ data, onBack }) {
     children: [
       // AppHeader
       _jsx(AppHeader, {}),
-      // NOVO: espaçador para empurrar conteúdo abaixo do AppHeader (que tem top-[71px] + h-[45px])
       _jsx("div", { className: "h-[130px] shrink-0" }),
       // Header
       _jsxs("div", {
         className: "h-16 px-6 pt-4 flex items-center gap-4",
-        // MUDANÇA: era "h-20 border-b" → "h-16" sem borda
         children: [
           _jsx("button", {
             onClick: onBack,
-            style: { color: "#B8502B", fontSize: "60px" }, // MUDANÇA: era "text-orange-600" → cor exata
+            style: { color: "#B8502B", fontSize: "60px" }, 
             className: "text-2xl",
             children: "‹",
           }),
           _jsx("h1", {
-            className: "text-xl font-semibold text-black mt-2", // MUDANÇA: era "text-2xl font-bold"
+            className: "text-xl font-semibold text-black mt-2", 
             children: "Dashboard",
           }),
         ],
@@ -75,16 +70,14 @@ export default function DashboardStatsView({ data, onBack }) {
           className: "space-y-8",
           children: [
 
-            // ── Bloco 1: Gráfico de linha ──
+            // Gráfico de linha ──
             _jsxs("div", {
               children: [
                 _jsx("h2", {
                   className: "text-base font-semibold text-black mb-3",
-                  // MUDANÇA: era "text-lg font-bold"
                   children: "Descartes realizados",
                 }),
 
-                // NOVO: dropdown de intervalo
                 _jsxs("div", {
                   className: "relative mb-4",
                   children: [
@@ -103,7 +96,7 @@ export default function DashboardStatsView({ data, onBack }) {
                       className: "absolute top-10 left-0 bg-white border border-gray-200 rounded-xl shadow-lg z-10 w-48 overflow-hidden",
                       children: intervalOptions.map(opt =>
                         _jsx("button", {
-                          onClick: () => { setSelectedInterval(opt.value); setDropdownOpen(false); },
+                          onClick: () => { setSelectedInterval(opt.value); setDropdownOpen(false); onIntervalChange?.(opt.value); },
                           className: "w-full text-left px-4 py-2.5 text-sm transition",
                           style: opt.value === selectedInterval
                             ? { backgroundColor: "#2D6A6A", color: "white" }
@@ -130,7 +123,7 @@ export default function DashboardStatsView({ data, onBack }) {
                       _jsx(Line, {
                         type: "monotone",
                         dataKey: "count",
-                        stroke: "#B8502B", // MUDANÇA: era "#f8c78d" → laranja mais escuro
+                        stroke: "#B8502B", 
                         strokeWidth: 2,
                         dot: { fill: "#B8502B", r: 4 },
                       }),
@@ -140,12 +133,11 @@ export default function DashboardStatsView({ data, onBack }) {
               ],
             }),
 
-            // ── Bloco 2: Gráfico de pizza ──
+            // Gráfico de pizza
             _jsxs("div", {
               children: [
                 _jsx("h2", {
                   className: "text-base font-semibold text-black mb-4",
-                  // MUDANÇA: era "text-lg font-bold"
                   children: "Tipos mais frequentes",
                 }),
                 _jsx(ResponsiveContainer, {
@@ -157,7 +149,7 @@ export default function DashboardStatsView({ data, onBack }) {
                         data: data.categories,
                         cx: "50%",
                         cy: "50%",
-                        innerRadius: 0, // MUDANÇA: era "60" (donut) → "0" (pizza sólida como no protótipo)
+                        innerRadius: 0, 
                         outerRadius: 90,
                         paddingAngle: 2,
                         dataKey: "value",
@@ -175,7 +167,6 @@ export default function DashboardStatsView({ data, onBack }) {
                 // Legenda
                 _jsx("div", {
                   className: "mt-4 grid grid-cols-2 gap-x-4 gap-y-2",
-                  // MUDANÇA: era "space-y-2" → grid 2 colunas como no protótipo
                   children: data.categories.map((cat) =>
                     _jsxs("div", {
                       className: "flex items-center gap-2",
@@ -186,7 +177,6 @@ export default function DashboardStatsView({ data, onBack }) {
                         }),
                         _jsx("span", {
                           className: "text-xs text-gray-700",
-                          // MUDANÇA: era "text-sm" → "text-xs"
                           children: cat.name,
                         }),
                       ],
@@ -196,7 +186,7 @@ export default function DashboardStatsView({ data, onBack }) {
               ],
             }),
 
-            // ── NOVO Bloco 3: Tempo médio para lixeiras atingirem nível 4 ──
+            // Tempo médio para lixeiras atingirem nível 4 
             _jsxs("div", {
               children: [
                 _jsx("h2", {
@@ -214,7 +204,7 @@ export default function DashboardStatsView({ data, onBack }) {
               ],
             }),
 
-            // ── NOVO Bloco 4: Tempo médio para coleta ──
+            // Tempo médio para coleta
             _jsxs("div", {
               children: [
                 _jsx("h2", {
@@ -235,7 +225,7 @@ export default function DashboardStatsView({ data, onBack }) {
                 }),
               ],
             }),
-
+            footer, 
           ],
         }),
       }),

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Eye, EyeOff } from "lucide-react";
 import svgPaths from "../views/svg-t929zus66l";
+
+// Logo
 function Component1() {
   return _jsx("div", {
     className: "absolute inset-[0_20.21%_6.52%_0]",
@@ -114,6 +116,8 @@ function Component() {
     }),
   });
 }
+
+// Símbolo do Google
 function GMark() {
   return _jsx("div", {
     className: "absolute inset-[25.58%_71.46%_24.75%_22.35%]",
@@ -151,10 +155,12 @@ function GMark() {
     }),
   });
 }
+
 export default function InteractiveLogin({
   onLogin,
   onGoogleLogin,
   onSwitchToCadastro,
+  onForgotPassword,
 }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -164,6 +170,7 @@ export default function InteractiveLogin({
     e.preventDefault();
     onLogin(email, password);
   };
+
   return _jsxs("div", {
     className: "bg-white relative size-full",
     "data-name": "Login",
@@ -186,6 +193,7 @@ export default function InteractiveLogin({
           }),
         }),
       }),
+
       _jsxs("div", {
         className: "absolute h-[61px] left-[40px] top-[171px] w-[350px]",
         "data-name": "Login/cadastro",
@@ -226,6 +234,7 @@ export default function InteractiveLogin({
           }),
         ],
       }),
+
       _jsxs("form", {
         onSubmit: handleSubmit,
         children: [
@@ -283,6 +292,7 @@ export default function InteractiveLogin({
               }),
               _jsx("button", {
                 type: "button",
+                onClick: onForgotPassword,
                 className:
                   "font-['Poppins:Medium',sans-serif] leading-[normal] not-italic text-[12px] text-[#a3a3a3] hover:text-[#6f9a7c] transition-colors mt-2",
                 children: "Esqueci minha senha",
@@ -301,6 +311,7 @@ export default function InteractiveLogin({
           }),
         ],
       }),
+
       _jsxs("div", {
         className: "absolute h-[15px] left-[35px] top-[510px] w-[360px]",
         "data-name": "Input Login/Barra 'ou'",
@@ -367,6 +378,7 @@ export default function InteractiveLogin({
           }),
         ],
       }),
+      
       _jsxs("button", {
         type: "button",
         onClick: onGoogleLogin,

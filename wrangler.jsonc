@@ -1,14 +1,5 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "greenup-frontend",
-  "compatibility_date": "2026-06-03",
-  "observability": {
-    "enabled": true
-  },
-  "assets": {
-    "not_found_handling": "single-page-application"
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "compatibility_date": "2026-10-15",
+  "assets": { "directory": "./dist", "not_found_handling": "single-page-application" }
 }

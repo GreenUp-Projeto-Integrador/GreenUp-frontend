@@ -2,6 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import svgPaths from "../views/svg-uyo7dsva7d";
+
+// Logo
 function Component1() {
   return _jsx("div", {
     className: "absolute inset-[0_20.21%_6.52%_0]",
@@ -113,6 +115,8 @@ function Component() {
     }),
   });
 }
+
+// Símbolo do Google
 function GMark() {
   return _jsx("div", {
     className: "absolute inset-[25.58%_71.46%_24.75%_22.35%]",
@@ -150,6 +154,7 @@ function GMark() {
     }),
   });
 }
+
 export default function InteractiveCadastro({
   onCadastro,
   onGoogleLogin,
@@ -172,6 +177,7 @@ export default function InteractiveCadastro({
       formData.confirmPassword,
     );
   };
+  
   return _jsxs("div", {
     className: "bg-white relative size-full",
     "data-name": "Cadastro",
@@ -194,6 +200,7 @@ export default function InteractiveCadastro({
           }),
         }),
       }),
+
       _jsxs("div", {
         className: "absolute h-[61px] left-[40px] top-[171px] w-[350px]",
         "data-name": "Login/cadastro",
@@ -234,6 +241,7 @@ export default function InteractiveCadastro({
           }),
         ],
       }),
+
       _jsxs("form", {
         onSubmit: handleSubmit,
         children: [
@@ -363,6 +371,7 @@ export default function InteractiveCadastro({
           }),
         ],
       }),
+
       _jsxs("div", {
         className: "absolute h-[15px] left-[35px] top-[683px] w-[360px]",
         children: [
@@ -390,6 +399,7 @@ export default function InteractiveCadastro({
           }),
         ],
       }),
+
       _jsxs("button", {
         type: "button",
         onClick: onGoogleLogin,

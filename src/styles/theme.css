@@ -136,11 +136,6 @@
     @apply bg-background text-foreground;
   }
 
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
   body {
     @apply bg-background text-foreground;
     font-family: 'Poppins', sans-serif;
@@ -195,4 +190,19 @@
     font-family: 'Poppins', sans-serif;
     line-height: 1.5;
   }
+}
+
+select option {
+  background-color: #ffffff;
+  color: #374151;
+}
+
+select option:not(:disabled):hover {
+  background-color: #6F9A7C;
+  color: #ffffff;
+}
+
+select option:checked:not(:disabled) {
+  background-color: #6F9A7C;
+  color: #ffffff;
 }

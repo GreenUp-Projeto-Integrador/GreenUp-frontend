@@ -4,36 +4,46 @@ import { useNavigate } from "react-router";
 import TelaPrincipal from "../views/TelaPrincipal";
 import Sidebar from "../views/Sidebar";
 import { motion, AnimatePresence } from "motion/react";
+import { useAuth } from "../../auth/AuthContext";
+
 export default function MainPage() {
     const navigate = useNavigate();
+    const { logout } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     const handleSidebarToggle = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
     const handleSidebarClick = (e) => {
         const target = e.target;
         // Handle logout
         if (target.closest('[data-name*="Sair"]')) {
+            logout();
             navigate("/login");
             setIsSidebarOpen(false);
         }
-        // Handle "Fazer login" - if user wants to switch accounts
+        // Handle "Fazer login" 
         if (target.closest('[data-name*="Fazer login"]')) {
             navigate("/login");
             setIsSidebarOpen(false);
         }
     };
+
     const handleCardNavigation = (cardType) => {
         const routes = {
             disposal: "/disposal",
             history: "/history",
             ranking: "/ranking",
+            map: "/map",
+            trashbins: "/trash-bins",
             dashboard: "/dashboard",
         };
         if (routes[cardType]) {
             navigate(routes[cardType]);
         }
     };
+    
     return (_jsxs("div", { className: "relative size-full overflow-hidden", children: [_jsx("div", { className: "size-full", onClick: (e) => {
                     const target = e.target.closest('button');
                     // Handle hamburger menu click

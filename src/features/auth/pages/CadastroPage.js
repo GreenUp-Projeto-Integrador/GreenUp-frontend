@@ -1,9 +1,8 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx } from "react/jsx-runtime";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { comingSoon } from "../../../shared/comingSoon";
-import InteractiveCadastro from "../components/InteractiveCadastro";
-import Cadastro from "../views/Cadastro";
+import FormularioCadastro from "../components/FormularioCadastro";
 import { authApi } from "../../../shared/api/endpoints";
 import { errorMessage } from "../../../shared/api/http";
 
@@ -40,18 +39,12 @@ export default function CadastroPage() {
     navigate("/login");
   };
 
-  return _jsxs("div", {
+  return _jsx("div", {
     className: "relative size-full overflow-hidden bg-white",
-    children: [
-      _jsx("div", {
-        className: "absolute inset-0",
-        children: _jsx(Cadastro, {}),
-      }),
-      _jsx(InteractiveCadastro, {
-        onCadastro: handleCadastro,
-        onGoogleLogin: handleGoogleLogin,
-        onSwitchToLogin: handleSwitchToLogin,
-      }),
-    ],
+    children: _jsx(FormularioCadastro, {
+      onCadastro: handleCadastro,
+      onGoogleLogin: handleGoogleLogin,
+      onSwitchToLogin: handleSwitchToLogin,
+    }),
   });
 }

@@ -1,12 +1,12 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react"; 
 import { useNavigate } from "react-router"; 
-import svgPaths from "../../features/dashboard/views/svg-bfct7an0b4";
-import imgMaleAvatar from "../../assets/a5378b296c9d3e83beae6b829ac0b6411c615059.png";
+import svgPaths from "../../features/dashboard/views/svgTelaPrincipal";
+import imgAvatar from "../../assets/avatar-padrao.png";
 import SidebarMenu from "./SidebarMenu"; 
 
 // Logo parte 1 
-function Component1() {
+function LogoBase() {
   return _jsx("div", { className: "absolute inset-[7.83%_60.53%_87.72%_30.93%]", children:
     _jsx("svg", { className: "absolute block size-full", fill: "none", preserveAspectRatio: "none", viewBox: "0 0 36.7027 41.4037", children:
       _jsxs("g", { children: [
@@ -20,7 +20,7 @@ function Component1() {
 }
 
 // Logo parte 2 
-function Component() {
+function LogoDetalhes() {
   return _jsx("div", { className: "absolute inset-[9.6%_58.37%_87.42%_36.38%]", children:
     _jsx("svg", { className: "absolute block size-full", fill: "none", preserveAspectRatio: "none", viewBox: "0 0 22.5726 27.856", children:
       _jsxs("g", { children: [
@@ -59,25 +59,26 @@ export default function AppHeader() {
       children: _jsx("img", {
         alt: "Perfil",
         className: "absolute inset-0 max-w-none object-contain size-full rounded-full",
-        src: imgMaleAvatar,
+        src: imgAvatar
       }),
     }),
 
     _jsxs("button", {
-      onClick: () => setSidebarOpen(true),
-      className: "absolute cursor-pointer left-[30px] top-[86px]",
-      style: { zIndex: 10 },
-      children: [
-        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-0 w-[27.2px]" }),     
-        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-[7.08px] w-[27.2px]" }), 
-        _jsx("div", { className: "absolute bg-black h-[2.833px] left-0 rounded-[2px] top-[14.17px] w-[27.2px]" }), 
-      ],
-    }),
+        type: "button",
+          onClick: () => setSidebarOpen(true),
+          "aria-label": "Abrir menu",
+          className: "absolute left-[22px] top-[73px] z-10 flex size-[44px] cursor-pointer flex-col items-center justify-center gap-[4.25px] rounded-full transition-colors hover:bg-black/5 active:bg-black/10",
+          children: [
+            _jsx("span", { className: "block h-[2.833px] w-[27.2px] rounded-[2px] bg-black" }),
+            _jsx("span", { className: "block h-[2.833px] w-[27.2px] rounded-[2px] bg-black" }),
+            _jsx("span", { className: "block h-[2.833px] w-[27.2px] rounded-[2px] bg-black" }),
+          ],
+        }),
 
     // Logo 
     _jsxs("div", { className: "absolute contents inset-[7.83%_58.37%_87.42%_30.93%]", children: [
-      _jsx(Component1, {}),
-      _jsx(Component, {}),
+      _jsx(LogoBase,{}),
+      _jsx(LogoDetalhes, {}),
     ]}),
 
   ]});

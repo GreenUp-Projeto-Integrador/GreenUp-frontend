@@ -1,11 +1,10 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { Eye, EyeOff } from "lucide-react";
-import svgPaths from "../views/svg-t929zus66l";
+import svgPaths from "./svgLogin";
 
 // Logo
-function Component1() {
+function LogoBase() {
   return _jsx("div", {
     className: "absolute inset-[0_20.21%_6.52%_0]",
     "data-name": "_1993560858768",
@@ -50,7 +49,7 @@ function Component1() {
     }),
   });
 }
-function Component() {
+function LogoDetalhes() {
   return _jsx("div", {
     className: "absolute inset-[37.11%_0_0_50.93%]",
     "data-name": "_1993560857360",
@@ -118,7 +117,7 @@ function Component() {
 }
 
 // Símbolo do Google
-function GMark() {
+function IconeGoogle() {
   return _jsx("div", {
     className: "absolute inset-[25.58%_71.46%_24.75%_22.35%]",
     "data-name": "G Mark 4",
@@ -156,13 +155,12 @@ function GMark() {
   });
 }
 
-export default function InteractiveLogin({
+export default function FormularioLogin({
   onLogin,
   onGoogleLogin,
   onSwitchToCadastro,
   onForgotPassword,
 }) {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -178,7 +176,7 @@ export default function InteractiveLogin({
       _jsxs("div", {
         className: "absolute h-[73px] left-[101px] top-[69px] w-[70px]",
         "data-name": "Logo",
-        children: [_jsx(Component1, {}), _jsx(Component, {})],
+        children: [_jsx(LogoBase, {}), _jsx(LogoDetalhes, {})],
       }),
       _jsx("div", {
         className:
@@ -389,7 +387,7 @@ export default function InteractiveLogin({
             className:
               "absolute bg-[#f7f7f7] inset-0 rounded-[40px] shadow-[0px_4px_9px_0px_rgba(0,0,0,0.15)]",
           }),
-          _jsx(GMark, {}),
+          _jsx(IconeGoogle, {}),
           _jsx("p", {
             className:
               "absolute font-['Poppins:Regular',sans-serif] inset-[20.93%_22.06%_27.91%_31.47%] leading-[normal] not-italic text-[17px] text-[rgba(0,0,0,0.45)]",

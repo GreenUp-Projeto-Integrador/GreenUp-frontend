@@ -1,10 +1,8 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react";
+import { jsx as _jsx } from "react/jsx-runtime";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { comingSoon } from "../../../shared/comingSoon";
-import InteractiveLogin from "../components/InteractiveLogin";
-import Login from "../views/Login";
+import FormularioLogin from "../components/FormularioLogin";
 import { useAuth } from "../AuthContext";
 import { errorMessage } from "../../../shared/api/http";
 
@@ -38,20 +36,13 @@ export default function LoginPage() {
     navigate("/cadastro");
   };
 
-  return _jsxs("div", {
+  return _jsx("div", {
     className: "relative size-full overflow-hidden bg-white",
-    children: [
-      _jsx("div", {
-        className: "absolute inset-0",
-        children: _jsx(Login, {}),
-      }),
-      _jsx(InteractiveLogin, {
-        onLogin: handleLogin,
-        onGoogleLogin: handleGoogleLogin,
-        onForgotPassword: handleForgotPassword,
-        onSwitchToCadastro: handleSwitchToCadastro,
-        onForgotPassword: handleForgotPassword,
-      }),
-    ],
+    children: _jsx(FormularioLogin, {
+      onLogin: handleLogin,
+      onGoogleLogin: handleGoogleLogin,
+      onForgotPassword: handleForgotPassword,
+      onSwitchToCadastro: handleSwitchToCadastro,
+    }),
   });
 }

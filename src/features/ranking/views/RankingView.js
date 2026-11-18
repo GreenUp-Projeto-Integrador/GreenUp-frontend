@@ -12,36 +12,36 @@ const avatarColors = [
 
 export default function RankingView({ ranking, onBack }) {
   return _jsxs("div", {
-    className: "relative size-full bg-white overflow-hidden",
+    className: "flex size-full flex-col bg-white",
     children: [
 
-      // Header
       _jsxs("div", {
-        className: "absolute top-0 left-0 right-0 h-36 px-6 pt-4",
+        className: "shrink-0 px-6 pt-4 pb-3",
         children: [
           _jsx("button", {
+            type: "button",
             onClick: onBack,
+            "aria-label": "Voltar",
             style: { color: "#B8502B", fontSize: "60px" },
-            className: "text-2xl mb-2",
+            className: "leading-none",
             children: "‹",
           }),
-          _jsx("div", {
-            className: "flex flex-col items-center",
-            children: _jsx("div", {
-              className: "text-4xl",
-              children: "🏆",
-            }),
-          }),
-          _jsx("h1", {
-            className: "text-xl font-semibold text-center text-black mt-1",
-            children: "Ranking",
+          _jsxs("div", {
+            className: "flex flex-col items-center gap-1",
+            children: [
+              _jsx("div", { className: "text-4xl leading-none", children: "🏆" }),
+              _jsx("h1", {
+                className: "text-xl font-semibold leading-tight text-black",
+                children: "Ranking",
+              }),
+            ],
           }),
         ],
       }),
 
       // Lista
       _jsx("div", {
-        className: "absolute top-36 left-0 right-0 bottom-0 overflow-y-auto px-6 py-3 space-y-2",
+        className: "flex-1 overflow-y-auto px-6 pb-3 space-y-2",
         children: ranking.map((user, index) =>
           _jsx("div", {
             className: "bg-white rounded-xl px-4 py-3 flex items-center gap-3",

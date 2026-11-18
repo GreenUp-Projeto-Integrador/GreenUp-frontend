@@ -55,7 +55,7 @@ export default function MapPage() {
   return _jsxs(ScreenLayout, {
     title: "Pontos de coleta",
     children: [_jsx("div", {
-      className: "rounded-2xl overflow-hidden border border-gray-200",
+      className: "isolate rounded-2xl overflow-hidden border border-gray-200",
       style: {
         height: "300px"
       },

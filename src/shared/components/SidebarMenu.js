@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../features/auth/AuthContext";
-import svgPaths from "../../features/dashboard/views/svg-ani2nrow18";
+import svgPaths from "./svgIconesMenu";
 import NotificationsPopup from "./NotificationsPopup";
 import TrashBinsPopup from "./TrashBinsPopup";
 import { notificationApi } from "../api/endpoints";
